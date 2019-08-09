@@ -46,4 +46,11 @@ public class MainPage{
 		MainPage m = new MainPage();
 		m.showMainPage(2);
 	}
+
+	/**
+	 * 测试
+	 */
+	public  void Sz(){
+		System.out.println("测试");
+	}
 }

@@ -59,7 +59,7 @@ public class view {
             }else break;
         }
 
-        System.out.println("输入数字进入对应页面                                当前水滴数: "+user.getWaater()+". 当前金币数: "+user.getMoney()+";\n1.专注模式(预计收入价值\"树对应金币数\"的\"树名\"及\"果实名\")" +
+        System.out.println("输入数字进入对应页面                                当前水滴数: "+user.getWater()+". 当前金币数: "+user.getMoney()+";\n1.专注模式(预计收入价值\"树对应金币数\"的\"树名\"及\"果实名\")" +
                 "\n2.功能菜单(请注意分配您的时间和精力)");
 
         switch (scan.nextInt()){

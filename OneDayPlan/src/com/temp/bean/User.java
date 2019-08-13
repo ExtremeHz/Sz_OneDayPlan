@@ -9,16 +9,16 @@ public class User {
     private int id;
     private long qq;
     private String password;
-    private int waater;
+    private int water;
     private int money;
 
     public User(){};
 
-    public User(int id, long qq, String password, int waater, int money) {
+    public User(int id, long qq, String password, int water, int money) {
         this.id = id;
         this.qq = qq;
         this.password = password;
-        this.waater = waater;
+        this.water = water;
         this.money = money;
     }
 
@@ -28,7 +28,7 @@ public class User {
                 "id=" + id +
                 ", qq=" + qq +
                 ", password='" + password + '\'' +
-                ", waater=" + waater +
+                ", water=" + water +
                 ", money=" + money +
                 '}';
     }
@@ -57,12 +57,12 @@ public class User {
         this.password = password;
     }
 
-    public int getWaater() {
-        return waater;
+    public int getWater() {
+        return water;
     }
 
-    public void setWaater(int waater) {
-        this.waater = waater;
+    public void setWater(int water) {
+        this.water = water;
     }
 
     public int getMoney() {

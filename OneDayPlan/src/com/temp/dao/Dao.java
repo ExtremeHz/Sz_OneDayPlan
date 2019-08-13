@@ -3,6 +3,8 @@ package com.temp.dao;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import com.temp.bean.User;
+import com.temp.bean.UserInfo;
+import com.temp.bean.UserTree;
 import org.junit.Test;
 
 
@@ -11,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,7 +51,7 @@ public class Dao {
 
             user.setId(re.getInt("id"));
             user.setQq(re.getLong("qq"));
-            user.setWaater(re.getInt("water"));
+            user.setWater(re.getInt("water"));
             user.setMoney(re.getInt("money"));
             ps.close();
 
@@ -86,7 +89,7 @@ public class Dao {
                 user.setId(rs.getInt("id"));
                 user.setQq(rs.getInt("qq"));
                 user.setPassword(rs.getString("password"));
-                user.setWaater(rs.getInt("water"));
+                user.setWater(rs.getInt("water"));
                 user.setMoney(rs.getInt("money"));
                 return user;
             }
@@ -153,11 +156,122 @@ public class Dao {
         return false;
     }
 
+    /**
+     * 返回用户已经解锁的树信息，方便用户选择进入专注界面多久
+     * @param qq
+     * @return
+     */
+    public List<UserTree> ShowUserlevel(Long qq){
+        List<UserTree> userTreeList = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        String sql = "select * from usertree where userQq=?";
+        try{
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setObject(1,qq);
+            rs = preparedStatement.executeQuery();
+            while(rs.next()){
+                UserTree userTree = new UserTree();
+                userTree.setId(rs.getInt("id"));
+                userTree.setTreeName(rs.getString("treeName"));
+                userTree.setUserQq(rs.getLong("userQq"));
+                userTree.setStartTime(rs.getTimestamp("startTime"));
+                userTreeList.add(userTree);
+            }
+            rs.close();
+            preparedStatement.close();
+            connection.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return userTreeList;
+    }
+
+    /**
+     * 更新用户可以种植的树
+     * @param qq
+     * @param flag
+     * @return
+     */
+    public boolean UpdateUserLevel(long qq,String flag){
+        String sql = "insert into usertree(treename,userQq) values(?,?)";
+        Connection con = null;
+        PreparedStatement pre = null;
+        try{
+            con = dataSource.getConnection();
+            pre = con.prepareStatement(sql);
+            pre.setObject(1,flag);
+            pre.setObject(2,qq);
+            if (pre.executeUpdate()>0){
+                return true;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 展示用户所有的计时操作
+     * @param qq
+     * @return
+     */
+    public List<UserInfo> ShowUserInfo(Long qq){
+        List<UserInfo> userInfoList = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        String sql = "select * from userinfo where userQq=?";
+        try{
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setObject(1,qq);
+            rs = preparedStatement.executeQuery();
+            while(rs.next()){
+                UserInfo userInfo = new UserInfo();
+                userInfo.setId(rs.getInt("id"));
+                userInfo.setUserQq(rs.getLong("userQq"));
+                userInfo.setTreeName(rs.getString("treeName"));
+                userInfo.setStartTime(rs.getTimestamp("startTime"));
+                userInfo.setEndTime(rs.getTimestamp("endTime"));
+                userInfo.setMoneyGet(rs.getDouble("moneyGet"));
+                userInfoList.add(userInfo);
+            }
+            rs.close();
+            preparedStatement.close();
+            connection.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return userInfoList;
+    }
+
+    /**
+     *更新用户的拥有的果子
+     * @return
+     */
+    public boolean UpdateUserFruit(){
+        return true;
+    }
+
     @Test
     public void run1(){
         Dao dao = new Dao();
         dao.UpdateUserWater((long)123,100);
         dao.UpdateUserMoney((long)123,50);
+//        dao.UpdateUserLevel((long)123,"测试树");
+        List<UserTree> userTreeList = dao.ShowUserlevel((long)123);
+        for(UserTree userTree:userTreeList){
+            System.out.println(userTree);
+        }
+        System.out.println("-----------------");
+        List<UserInfo> userInfoList = dao.ShowUserInfo((long)123);
+        for(UserInfo userInfo:userInfoList){
+            System.out.println(userInfo);
+        }
+        System.out.println("-----------------");
         System.out.println(dao.UserLogin((long)123));
     }
 

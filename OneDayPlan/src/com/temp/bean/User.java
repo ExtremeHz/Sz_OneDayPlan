@@ -1,5 +1,7 @@
 package com.temp.bean;
 
+import java.util.List;
+
 /**
  * @Auther: YunHai
  * @Date: 2019/7/26 14:32
@@ -11,6 +13,8 @@ public class User {
     private String password;
     private int water;
     private int money;
+
+    private List<fruit> fruits;   //背包用
 
     public User(){};
 
@@ -31,6 +35,14 @@ public class User {
                 ", water=" + water +
                 ", money=" + money +
                 '}';
+    }
+
+    public List<fruit> getFruits() {
+        return fruits;
+    }
+
+    public void setFruits(List<fruit> fruits) {
+        this.fruits = fruits;
     }
 
     public int getId() {

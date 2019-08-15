@@ -13,7 +13,7 @@ public class Service {
     {dao = new Dao();}
 
 //    直接调用login
-    public User login(long qq, String password){
+    public   User login(long qq, String password){
         return dao.getUser(qq,password);
     }
 

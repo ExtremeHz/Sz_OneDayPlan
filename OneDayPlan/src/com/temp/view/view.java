@@ -2,6 +2,8 @@ package com.temp.view;
 
 import com.temp.bean.User;
 import com.temp.service.Service;
+import org.junit.Test;
+
 import java.util.Scanner;
 
 /**
@@ -97,6 +99,7 @@ public class view {
     /**
      * 菜单打印
      */
+    @Test
     public void menu(){
         System.out.println("-------------------------------------------------\n" +
                 "**一曰之计(当前水滴数)**    //首页->2.功能菜单"+
@@ -106,7 +109,12 @@ public class view {
                 "4.返回上级");
 //        接收选择  并调用不同方法
         switch (scan.nextInt()){
+            case 1:
+                System.out.println(1);
+                break;
+
             default:
+                System.out.println(4);
         }
 
     }

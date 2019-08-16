@@ -8,10 +8,11 @@ import java.util.Date;
  * @description:用户已经解锁的树的种类
  */
 public class UserTree {
-    private Integer id;
+    private Integer id;   //没用，后面删除掉
     private String treeName;
     private Long userQq;
     private Date startTime;
+    private Integer growValue;
 
     @Override
     public String toString() {
@@ -20,7 +21,16 @@ public class UserTree {
                 ", treeName='" + treeName + '\'' +
                 ", userQq=" + userQq +
                 ", startTime=" + startTime +
+                ", growValue=" + growValue +
                 '}';
+    }
+
+    public Integer getGrowValue() {
+        return growValue;
+    }
+
+    public void setGrowValue(Integer growValue) {
+        this.growValue = growValue;
     }
 
     public Integer getId() {

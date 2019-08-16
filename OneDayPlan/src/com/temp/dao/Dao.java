@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -159,14 +160,16 @@ public class Dao {
     /**
      * 返回用户已经解锁的树信息，方便用户选择进入专注界面多久
      * @param qq
-     * @return
+     * @return 解锁的树信息
      */
     public List<UserTree> ShowUserlevel(Long qq){
         List<UserTree> userTreeList = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
-        String sql = "select * from usertree where userQq=?";
+//        String sql = "select * from usertree where userQq=?";
+        //查询 usertree表，通过和tree表连接来获取名字
+        String sql="select userQq,startTime,t.name as treeName from tree t,usertree ut where t.id=ut.treeid and userQq=?";
         try{
             connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement(sql);
@@ -174,7 +177,7 @@ public class Dao {
             rs = preparedStatement.executeQuery();
             while(rs.next()){
                 UserTree userTree = new UserTree();
-                userTree.setId(rs.getInt("id"));
+//                userTree.setId(rs.getInt("id"));
                 userTree.setTreeName(rs.getString("treeName"));
                 userTree.setUserQq(rs.getLong("userQq"));
                 userTree.setStartTime(rs.getTimestamp("startTime"));
@@ -196,7 +199,7 @@ public class Dao {
      * @return
      */
     public boolean UpdateUserLevel(long qq,String flag){
-        String sql = "insert into usertree(treename,userQq) values(?,?)";
+        String sql = "insert into usertree(treename,userQq,startTime) values(?,?,?)";
         Connection con = null;
         PreparedStatement pre = null;
         try{
@@ -204,6 +207,7 @@ public class Dao {
             pre = con.prepareStatement(sql);
             pre.setObject(1,flag);
             pre.setObject(2,qq);
+            pre.setObject(3,new Date());
             if (pre.executeUpdate()>0){
                 return true;
             }
@@ -218,26 +222,42 @@ public class Dao {
      * @param qq
      * @return
      */
-    public List<UserInfo> ShowUserInfo(Long qq){
-        List<UserInfo> userInfoList = new ArrayList<>();
+    public List<User> ShowUserInfo(Long qq){
+//        List<UserInfo> userInfoList = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
-        String sql = "select * from userinfo where userQq=?";
+//        String sql = "select * from userinfo where userQq=?";
+        //查询tree usertree  szuser三个表来获取用户信息
+        String sql = "select sz.*,tree.name,ut.startTime,tree.growValue from szuser sz,usertree ut,tree where sz.qq=ut.userQq and ut.treeId=tree.id and sz.qq=?";
         try{
             connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setObject(1,qq);
             rs = preparedStatement.executeQuery();
             while(rs.next()){
-                UserInfo userInfo = new UserInfo();
-                userInfo.setId(rs.getInt("id"));
-                userInfo.setUserQq(rs.getLong("userQq"));
-                userInfo.setTreeName(rs.getString("treeName"));
-                userInfo.setStartTime(rs.getTimestamp("startTime"));
-                userInfo.setEndTime(rs.getTimestamp("endTime"));
-                userInfo.setMoneyGet(rs.getDouble("moneyGet"));
-                userInfoList.add(userInfo);
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setQq(rs.getLong("qq"));
+                user.setWater(rs.getInt("water"));
+                user.setMoney(rs.getInt("money"));
+
+                //user表中的usertree属性
+                UserTree userTree = new UserTree();
+                userTree.setTreeName(rs.getString("name"));
+                userTree.setStartTime(rs.getTimestamp("startTime"));
+                userTree.setGrowValue(rs.getInt("growValue"));
+                user.setUserTree(userTree);
+//                UserInfo userInfo = new UserInfo();
+//                userInfo.setId(rs.getInt("id"));
+//                userInfo.setUserQq(rs.getLong("userQq"));
+//                userInfo.setTreeName(rs.getString("treeName"));
+//                userInfo.setStartTime(rs.getTimestamp("startTime"));
+//                userInfo.setEndTime(rs.getTimestamp("endTime"));
+//                userInfo.setMoneyGet(rs.getDouble("moneyGet"));
+//                userInfoList.add(userInfo);
+                userList.add(user);
             }
             rs.close();
             preparedStatement.close();
@@ -245,7 +265,8 @@ public class Dao {
         }catch (Exception e){
             e.printStackTrace();
         }
-        return userInfoList;
+//        return userInfoList;
+        return userList;
     }
 
     /**
@@ -261,16 +282,24 @@ public class Dao {
         Dao dao = new Dao();
         dao.UpdateUserWater((long)123,100);
         dao.UpdateUserMoney((long)123,50);
-//        dao.UpdateUserLevel((long)123,"测试树");
+        dao.UpdateUserLevel((long)123,"测试树");
+
+        //测试查询用户信息的方法
+        List<User> users = dao.ShowUserInfo((long)123);
+        for(User user:users){
+            System.out.println(user);
+        }
+        //获取用户树信息
         List<UserTree> userTreeList = dao.ShowUserlevel((long)123);
         for(UserTree userTree:userTreeList){
             System.out.println(userTree);
         }
         System.out.println("-----------------");
-        List<UserInfo> userInfoList = dao.ShowUserInfo((long)123);
-        for(UserInfo userInfo:userInfoList){
-            System.out.println(userInfo);
-        }
+        //原来的测试用户信息方法，可以删除
+//        List<UserInfo> userInfoList = dao.ShowUserInfo((long)123);
+//        for(UserInfo userInfo:userInfoList){
+//            System.out.println(userInfo);
+//        }
         System.out.println("-----------------");
         System.out.println(dao.UserLogin((long)123));
     }

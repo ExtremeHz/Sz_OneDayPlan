@@ -16,6 +16,8 @@ public class User {
 
     private List<fruit> fruits;   //背包用
 
+    private UserTree userTree;  //userTree背包
+
     public User(){};
 
     public User(int id, long qq, String password, int water, int money) {
@@ -26,6 +28,7 @@ public class User {
         this.money = money;
     }
 
+
     @Override
     public String toString() {
         return "User{" +
@@ -34,7 +37,17 @@ public class User {
                 ", password='" + password + '\'' +
                 ", water=" + water +
                 ", money=" + money +
+                ", fruits=" + fruits +
+                ", userTree=" + userTree +
                 '}';
+    }
+
+    public UserTree getUserTree() {
+        return userTree;
+    }
+
+    public void setUserTree(UserTree userTree) {
+        this.userTree = userTree;
     }
 
     public List<fruit> getFruits() {

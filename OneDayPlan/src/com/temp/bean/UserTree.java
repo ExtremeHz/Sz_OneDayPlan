@@ -10,9 +10,10 @@ import java.util.Date;
 public class UserTree {
     private Integer id;   //没用，后面删除掉
     private String treeName;
-    private Long userQq;
-    private Date startTime;
-    private Integer growValue;
+    private Integer userQq;
+    private String  price;
+    private String time;
+    private Integer flag;
 
     @Override
     public String toString() {
@@ -20,17 +21,10 @@ public class UserTree {
                 "id=" + id +
                 ", treeName='" + treeName + '\'' +
                 ", userQq=" + userQq +
-                ", startTime=" + startTime +
-                ", growValue=" + growValue +
+                ", price='" + price + '\'' +
+                ", time='" + time + '\'' +
+                ", flag=" + flag +
                 '}';
-    }
-
-    public Integer getGrowValue() {
-        return growValue;
-    }
-
-    public void setGrowValue(Integer growValue) {
-        this.growValue = growValue;
     }
 
     public Integer getId() {
@@ -49,19 +43,35 @@ public class UserTree {
         this.treeName = treeName;
     }
 
-    public Long getUserQq() {
+    public Integer getUserQq() {
         return userQq;
     }
 
-    public void setUserQq(Long userQq) {
+    public void setUserQq(Integer userQq) {
         this.userQq = userQq;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public String getPrice() {
+        return price;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public Integer getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
 }

@@ -5,7 +5,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.temp.bean.User;
 import com.temp.bean.UserInfo;
 import com.temp.bean.UserTree;
-import org.junit.Test;
+
 
 
 import javax.management.relation.RoleUnresolved;
@@ -159,28 +159,27 @@ public class Dao {
 
     /**
      * 返回用户已经解锁的树信息，方便用户选择进入专注界面多久
-     * @param qq
      * @return 解锁的树信息
      */
-    public List<UserTree> ShowUserlevel(Long qq){
+    public List<UserTree> ShowUserlevel(){
         List<UserTree> userTreeList = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
 //        String sql = "select * from usertree where userQq=?";
         //查询 usertree表，通过和tree表连接来获取名字
-        String sql="select userQq,startTime,t.name as treeName from tree t,usertree ut where t.id=ut.treeid and userQq=?";
+        String sql="select * from usertree";
         try{
             connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setObject(1,qq);
             rs = preparedStatement.executeQuery();
             while(rs.next()){
                 UserTree userTree = new UserTree();
 //                userTree.setId(rs.getInt("id"));
                 userTree.setTreeName(rs.getString("treeName"));
-                userTree.setUserQq(rs.getLong("userQq"));
-                userTree.setStartTime(rs.getTimestamp("startTime"));
+                userTree.setPrice(rs.getString("price"));
+                userTree.setFlag(rs.getInt("flag"));
+                userTree.setTime(rs.getString("time"));
                 userTreeList.add(userTree);
             }
             rs.close();
@@ -217,57 +216,57 @@ public class Dao {
         return false;
     }
 
-    /**
-     * 展示用户所有的计时操作
-     * @param qq
-     * @return
-     */
-    public List<User> ShowUserInfo(Long qq){
-//        List<UserInfo> userInfoList = new ArrayList<>();
-        List<User> userList = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet rs = null;
-//        String sql = "select * from userinfo where userQq=?";
-        //查询tree usertree  szuser三个表来获取用户信息
-        String sql = "select sz.*,tree.name,ut.startTime,tree.growValue from szuser sz,usertree ut,tree where sz.qq=ut.userQq and ut.treeId=tree.id and sz.qq=?";
-        try{
-            connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setObject(1,qq);
-            rs = preparedStatement.executeQuery();
-            while(rs.next()){
-                User user = new User();
-                user.setId(rs.getInt("id"));
-                user.setQq(rs.getLong("qq"));
-                user.setWater(rs.getInt("water"));
-                user.setMoney(rs.getInt("money"));
-
-                //user表中的usertree属性
-                UserTree userTree = new UserTree();
-                userTree.setTreeName(rs.getString("name"));
-                userTree.setStartTime(rs.getTimestamp("startTime"));
-                userTree.setGrowValue(rs.getInt("growValue"));
-                user.setUserTree(userTree);
-//                UserInfo userInfo = new UserInfo();
-//                userInfo.setId(rs.getInt("id"));
-//                userInfo.setUserQq(rs.getLong("userQq"));
-//                userInfo.setTreeName(rs.getString("treeName"));
-//                userInfo.setStartTime(rs.getTimestamp("startTime"));
-//                userInfo.setEndTime(rs.getTimestamp("endTime"));
-//                userInfo.setMoneyGet(rs.getDouble("moneyGet"));
-//                userInfoList.add(userInfo);
-                userList.add(user);
-            }
-            rs.close();
-            preparedStatement.close();
-            connection.close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-//        return userInfoList;
-        return userList;
-    }
+//    /**
+//     * 展示用户所有的计时操作
+//     * @param qq
+//     * @return
+//     */
+//    public List<User> ShowUserInfo(Long qq){
+////        List<UserInfo> userInfoList = new ArrayList<>();
+//        List<User> userList = new ArrayList<>();
+//        Connection connection = null;
+//        PreparedStatement preparedStatement = null;
+//        ResultSet rs = null;
+////        String sql = "select * from userinfo where userQq=?";
+//        //查询tree usertree  szuser三个表来获取用户信息
+//        String sql = "select sz.*,tree.name,ut.startTime,tree.growValue from szuser sz,usertree ut,tree where sz.qq=ut.userQq and ut.treeId=tree.id and sz.qq=?";
+//        try{
+//            connection = dataSource.getConnection();
+//            preparedStatement = connection.prepareStatement(sql);
+//            preparedStatement.setObject(1,qq);
+//            rs = preparedStatement.executeQuery();
+//            while(rs.next()){
+//                User user = new User();
+//                user.setId(rs.getInt("id"));
+//                user.setQq(rs.getLong("qq"));
+//                user.setWater(rs.getInt("water"));
+//                user.setMoney(rs.getInt("money"));
+//
+//                //user表中的usertree属性
+//                UserTree userTree = new UserTree();
+//                userTree.setTreeName(rs.getString("name"));
+//                userTree.setStartTime(rs.getTimestamp("startTime"));
+//                userTree.setGrowValue(rs.getInt("growValue"));
+//                user.setUserTree(userTree);
+////                UserInfo userInfo = new UserInfo();
+////                userInfo.setId(rs.getInt("id"));
+////                userInfo.setUserQq(rs.getLong("userQq"));
+////                userInfo.setTreeName(rs.getString("treeName"));
+////                userInfo.setStartTime(rs.getTimestamp("startTime"));
+////                userInfo.setEndTime(rs.getTimestamp("endTime"));
+////                userInfo.setMoneyGet(rs.getDouble("moneyGet"));
+////                userInfoList.add(userInfo);
+//                userList.add(user);
+//            }
+//            rs.close();
+//            preparedStatement.close();
+//            connection.close();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+////        return userInfoList;
+//        return userList;
+//    }
 
     /**
      *更新用户的拥有的果子
@@ -277,32 +276,7 @@ public class Dao {
         return true;
     }
 
-    @Test
-    public void run1(){
-        Dao dao = new Dao();
-        dao.UpdateUserWater((long)123,100);
-        dao.UpdateUserMoney((long)123,50);
-        dao.UpdateUserLevel((long)123,"测试树");
 
-        //测试查询用户信息的方法
-        List<User> users = dao.ShowUserInfo((long)123);
-        for(User user:users){
-            System.out.println(user);
-        }
-        //获取用户树信息
-        List<UserTree> userTreeList = dao.ShowUserlevel((long)123);
-        for(UserTree userTree:userTreeList){
-            System.out.println(userTree);
-        }
-        System.out.println("-----------------");
-        //原来的测试用户信息方法，可以删除
-//        List<UserInfo> userInfoList = dao.ShowUserInfo((long)123);
-//        for(UserInfo userInfo:userInfoList){
-//            System.out.println(userInfo);
-//        }
-        System.out.println("-----------------");
-        System.out.println(dao.UserLogin((long)123));
-    }
 
 
 }

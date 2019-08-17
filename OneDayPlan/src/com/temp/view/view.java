@@ -165,6 +165,7 @@ public class view {
         System.out.println("**一曰之计(当前水滴数"+user.getWater()+")**    //首页->2.功能菜单->种植绿化");
 //        System.out.println(list.size());
         list.stream().forEach(t ->{
+
             System.out.println("用户"+t.getQq()+"在"+t.getUserTree().getStartTime()+"\n种植了"+t.getUserTree().getTreeName()+"\n预计收益"+t.getUserTree().getGrowValue()+"\n");
         });
         String str =scan.next();

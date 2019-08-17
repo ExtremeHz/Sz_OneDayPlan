@@ -69,6 +69,7 @@ public class view {
         System.out.println("------------------");
         list.stream().forEach(t -> {
             System.out.println(t.getStartTime()+"\""+t.getTreeName());
+            System.out.println(1);
         });
 
         switch (scan.nextInt()){

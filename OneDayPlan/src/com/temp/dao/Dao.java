@@ -2,6 +2,7 @@ package com.temp.dao;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
+import com.temp.bean.Tree;
 import com.temp.bean.User;
 import com.temp.bean.UserInfo;
 import com.temp.bean.UserTree;
@@ -161,17 +162,18 @@ public class Dao {
      * 返回用户已经解锁的树信息，方便用户选择进入专注界面多久
      * @return 解锁的树信息
      */
-    public List<UserTree> ShowUserlevel(){
+    public List<UserTree> ShowUserlevel(long qq){
         List<UserTree> userTreeList = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
 //        String sql = "select * from usertree where userQq=?";
         //查询 usertree表，通过和tree表连接来获取名字
-        String sql="select * from usertree";
+        String sql="select * from usertree where Userqq=?";
         try{
             connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setObject(1,qq);
             rs = preparedStatement.executeQuery();
             while(rs.next()){
                 UserTree userTree = new UserTree();
@@ -274,6 +276,38 @@ public class Dao {
      */
     public boolean UpdateUserFruit(){
         return true;
+    }
+
+    /**
+     * 展示用户可以解锁的树
+     * @param moeny
+     * @return
+     */
+    public List<Tree> showUserUnlockTree(Integer moeny){
+        List<Tree> trees= new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        String sql="select * from tree  where unlockTree < ?";
+        try{
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setObject(1,moeny);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                Tree tree =new Tree();
+                tree.setName(resultSet.getString("name"));
+                tree.setTime(resultSet.getInt("time"));
+                tree.setPrice(resultSet.getDouble("price"));
+                trees.add(tree);
+            }
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return trees;
+
     }
 
 

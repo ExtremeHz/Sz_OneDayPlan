@@ -342,6 +342,31 @@ public class Dao {
     }
 
 
+    /**
+     * 插入一条数据到userinfo表中
+     * @param qq
+     * @param treeName
+     * @param time
+     * @param moneyGet
+     */
+    public  void InnsertOneToUserInfo(Integer qq,String treeName,String time,Double moneyGet){
+        String sql = "insert into userinfo(userQq,treeName,Timer,moneyGet) values(?,?,?,?)";
+        Connection con = null;
+        PreparedStatement pre = null;
+        try{
+            con = dataSource.getConnection();
+            pre = con.prepareStatement(sql);
+            pre.setObject(1,qq);
+            pre.setObject(2,treeName);
+            pre.setObject(3,time);
+            pre.setObject(4,moneyGet);
+            pre.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
 
 
 }

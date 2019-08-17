@@ -279,7 +279,7 @@ public class Dao {
     }
 
     /**
-     * 展示用户可以解锁的树
+     * 展示用户可以解锁的树根据moeny
      * @param moeny
      * @return
      */
@@ -308,6 +308,37 @@ public class Dao {
         }
         return trees;
 
+    }
+
+    /**
+     * 展示用户金币和水滴，通过qq查询user
+     * @param qq
+     * @return 用户
+     */
+    public User ShowUserMoenyAndWater(Long qq){
+        String sql = "select * from szuser where qq=?";
+        User user = new User();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            conn = dataSource.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setObject(1,qq);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                user.setWater(rs.getInt("water"));
+                user.setMoney(rs.getInt("money"));
+                return user;
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+            return null;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw  new RuntimeException("查询失败");
+        }
     }
 
 

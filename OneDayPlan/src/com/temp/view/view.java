@@ -1,9 +1,11 @@
 package com.temp.view;
 
 import com.temp.bean.User;
+import com.temp.bean.UserTree;
 import com.temp.service.Service;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -12,8 +14,6 @@ import java.util.Scanner;
  * @Description: view层
  */
 public class view {
-
-
 
 
     public Scanner scan = new Scanner(System.in);
@@ -38,8 +38,6 @@ public class view {
 //            获取输入  并通过//进行分割
             String input = scan.nextLine();
             String[] inputs = input.split("//");
-
-
             long qq = 0;
             String password;
 //            如果输入格式错误   会抛出异常
@@ -60,16 +58,31 @@ public class view {
                 System.out.println("账号或密码错误, 请重新登陆");
             }else break;
         }
+       showMainIndex(user);
+    }
 
+//    首页展示
+    public  void showMainIndex(User user){
+        List<UserTree> list = service.ShowUserlevel(user.getQq());
         System.out.println("输入数字进入对应页面                                当前水滴数: "+user.getWater()+". 当前金币数: "+user.getMoney()+";\n1.专注模式(预计收入价值\"树对应金币数\"的\"树名\"及\"果实名\")" +
                 "\n2.功能菜单(请注意分配您的时间和精力)");
+        System.out.println("------------------");
+        list.stream().forEach(t -> {
+            System.out.println(t.getStartTime()+"\""+t.getTreeName());
+        });
 
         switch (scan.nextInt()){
+            case 1:
+                break;
+            case 2:
+                menu(user);
+                break;
+
             default:
 
         }
 
-    }
+    };
 
 
     /**
@@ -99,22 +112,35 @@ public class view {
     /**
      * 菜单打印
      */
-    @Test
-    public void menu(){
+
+    public void menu(User user){
         System.out.println("-------------------------------------------------\n" +
-                "**一曰之计(当前水滴数)**    //首页->2.功能菜单"+
+                "**一曰之计(当前水滴数)**    //首页->2.功能菜单\n"+
                 "1.绿化种植\n" +
                 "2.个人中心\n" +
                 "3.商城兑换\n" +
                 "4.返回上级");
 //        接收选择  并调用不同方法
-        switch (scan.nextInt()){
-            case 1:
-                System.out.println(1);
+        String s  = scan.next();
+        switch (s){
+            case "1":
+//                种植中心
+              plant(user.getUserTree());
                 break;
-
-            default:
-                System.out.println(4);
+            case "2":
+//                个人中心
+                personCenter(user);
+                break;
+            case "3":
+//              商城兑换
+                break;
+//                返回上级
+            case "4":
+                showMainIndex(user);
+                break;
+            case "//":
+                showMainIndex(user);
+                break;
         }
 
     }
@@ -122,7 +148,7 @@ public class view {
     /**
      * 种植页面 待完善
      */
-    public void plant(){
+    public void plant(UserTree userTree){
         System.out.println("--------------------------------------------------\n" +
                 "**一曰之计(当前水滴数)**    //首页->2.功能菜单->种植绿化"+
                 "背包: " +"苹果树1" +
@@ -131,6 +157,25 @@ public class view {
         );
     }
 
+//    个人中心
+    public void personCenter(User user){
+        List<User> list = service.ShowUserInfo(user.getQq());
+
+        System.out.println("**一曰之计(当前水滴数"+user.getWater()+")**    //首页->2.功能菜单->种植绿化");
+//        System.out.println(list.size());
+        list.stream().forEach(t ->{
+            System.out.println("用户"+t.getQq()+"在"+t.getUserTree().getStartTime()+"\n种植了"+t.getUserTree().getTreeName()+"\n预计收益"+t.getUserTree().getGrowValue()+"\n");
+        });
+        String str =scan.next();
+        if(str.equals("//")){
+            showMainIndex(user);
+        }
+
+    }
+    public static void main(String[] args) {
+        view vi = new view();
+        vi.start();
+    }
 
 }
 

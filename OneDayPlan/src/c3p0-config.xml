@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c3p0-config>
+
+         <!-- c3p0默认配置，下面还可以配置多个数据库 -->
+         <default-config>
+             <property name="jdbcUrl">jdbc:mysql://localhost:3306/sz
+             </property>
+             <property name="driverClass">com.mysql.jdbc.Driver</property>
+            <property name="user">root</property>
+            <property name="password">981226</property>
+             <property name="initialPoolSize">6</property>
+             <property name="maxPoolSize">50</property>
+             <property name="maxIdleTime">1000</property>
+         </default-config>
+
+    </c3p0-config>

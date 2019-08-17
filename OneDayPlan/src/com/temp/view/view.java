@@ -4,8 +4,6 @@ import com.temp.bean.User;
 import com.temp.bean.UserTree;
 import com.temp.service.Service;
 import com.temp.test.TimeUtils;
-import org.junit.Test;
-
 import java.util.List;
 import java.util.Scanner;
 

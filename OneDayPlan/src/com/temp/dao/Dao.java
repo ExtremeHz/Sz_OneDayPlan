@@ -351,6 +351,26 @@ public class Dao {
 
     }
 
+    /**
+     * 解锁树
+     * @param userQq
+     * @param treeName
+     */
+    public void updateUserTreeFlag(Integer userQq,String treeName){
 
+        String sql = "update usertree set flag=1 where userQq=? and treeName=?";
+        Connection connection = null;
+        PreparedStatement pre = null;
+        try {
+            connection = dataSource.getConnection();
+            pre = connection.prepareStatement(sql);
+            pre.setObject(1,userQq);
+            pre.setObject(2,treeName);
+            pre.close();
+            connection.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 }

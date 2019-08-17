@@ -3,6 +3,7 @@ package com.temp.view;
 import com.temp.bean.User;
 import com.temp.bean.UserTree;
 import com.temp.service.Service;
+import com.temp.test.TimeUtils;
 import org.junit.Test;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class view {
 
 //    public static void main(String[] args){
 //
-//        new TimeTask(5).start();
+//        new TimeTask(5).startTime();
 //    }
 
 //    启动- 登录
@@ -69,7 +70,6 @@ public class view {
         System.out.println("------------------");
         list.stream().forEach(t -> {
             System.out.println(t.getStartTime()+"\""+t.getTreeName());
-            System.out.println(1);
         });
 
         switch (scan.nextInt()){
@@ -80,6 +80,12 @@ public class view {
                 break;
 
             default:
+
+        }
+        boolean flag  = TimeUtils.timekeeper(5);
+        if(flag){
+
+        }else {
 
         }
 

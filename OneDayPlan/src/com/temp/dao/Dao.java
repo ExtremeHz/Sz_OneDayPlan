@@ -218,58 +218,58 @@ public class Dao {
         return false;
     }
 
-//    /**
-//     * 展示用户所有的计时操作
-//     * @param qq
-//     * @return
-//     */
-//    public List<User> ShowUserInfo(Long qq){
-////        List<UserInfo> userInfoList = new ArrayList<>();
-//        List<User> userList = new ArrayList<>();
-//        Connection connection = null;
-//        PreparedStatement preparedStatement = null;
-//        ResultSet rs = null;
-////        String sql = "select * from userinfo where userQq=?";
-//        //查询tree usertree  szuser三个表来获取用户信息
-//        String sql = "select sz.*,tree.name,ut.startTime,tree.growValue from szuser sz,usertree ut,tree where sz.qq=ut.userQq and ut.treeId=tree.id and sz.qq=?";
-//        try{
-//            connection = dataSource.getConnection();
-//            preparedStatement = connection.prepareStatement(sql);
-//            preparedStatement.setObject(1,qq);
-//            rs = preparedStatement.executeQuery();
-//            while(rs.next()){
-//                User user = new User();
-//                user.setId(rs.getInt("id"));
-//                user.setQq(rs.getLong("qq"));
-//                user.setWater(rs.getInt("water"));
-//                user.setMoney(rs.getInt("money"));
-//
-//                //user表中的usertree属性
-//                UserTree userTree = new UserTree();
-//                userTree.setTreeName(rs.getString("name"));
-//                userTree.setStartTime(rs.getTimestamp("startTime"));
-//                userTree.setGrowValue(rs.getInt("growValue"));
-//                user.setUserTree(userTree);
-////                UserInfo userInfo = new UserInfo();
-////                userInfo.setId(rs.getInt("id"));
-////                userInfo.setUserQq(rs.getLong("userQq"));
-////                userInfo.setTreeName(rs.getString("treeName"));
-////                userInfo.setStartTime(rs.getTimestamp("startTime"));
-////                userInfo.setEndTime(rs.getTimestamp("endTime"));
-////                userInfo.setMoneyGet(rs.getDouble("moneyGet"));
-////                userInfoList.add(userInfo);
-//                userList.add(user);
-//            }
-//            rs.close();
-//            preparedStatement.close();
-//            connection.close();
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-////        return userInfoList;
-//        return userList;
-//    }
+    /**
+     * 展示用户所有的计时操作
+     * @param qq
+     * @return
+     */
+    /*public List<User> ShowUserInfo(Long qq){
+//        List<UserInfo> userInfoList = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+//        String sql = "select * from userinfo where userQq=?";
+        //查询tree usertree  szuser三个表来获取用户信息
+        String sql = "select sz.*,tree.name,ut.startTime,tree.growValue from szuser sz,usertree ut,tree where sz.qq=ut.userQq and ut.treeId=tree.id and sz.qq=?";
+        try{
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setObject(1,qq);
+            rs = preparedStatement.executeQuery();
+            while(rs.next()){
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setQq(rs.getLong("qq"));
+                user.setWater(rs.getInt("water"));
+                user.setMoney(rs.getInt("money"));
 
+                //user表中的usertree属性
+                UserTree userTree = new UserTree();
+                userTree.setTreeName(rs.getString("name"));
+                userTree.setStartTime(rs.getTimestamp("startTime"));
+                userTree.setGrowValue(rs.getInt("growValue"));
+                user.setUserTree(userTree);
+//                UserInfo userInfo = new UserInfo();
+//                userInfo.setId(rs.getInt("id"));
+//                userInfo.setUserQq(rs.getLong("userQq"));
+//                userInfo.setTreeName(rs.getString("treeName"));
+//                userInfo.setStartTime(rs.getTimestamp("startTime"));
+//                userInfo.setEndTime(rs.getTimestamp("endTime"));
+//                userInfo.setMoneyGet(rs.getDouble("moneyGet"));
+//                userInfoList.add(userInfo);
+                userList.add(user);
+            }
+            rs.close();
+            preparedStatement.close();
+            connection.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+//        return userInfoList;
+        return userList;
+    }
+*/
     /**
      *更新用户的拥有的果子
      * @return

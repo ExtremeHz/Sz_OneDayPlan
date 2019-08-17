@@ -1,5 +1,6 @@
 package com.temp.view;
 
+import com.temp.bean.Tree;
 import com.temp.bean.User;
 import com.temp.bean.UserTree;
 import com.temp.service.Service;
@@ -67,28 +68,46 @@ public class view {
                 "\n2.功能菜单(请注意分配您的时间和精力)");
         System.out.println("------------------");
         list.stream().forEach(t -> {
-            System.out.println(t.getStartTime()+"\""+t.getTreeName());
+            if(t.getFlag()==1){
+                System.out.println(t.getTreeName()+"\""+t.getPrice()+"\""+t.getTime());
+            }
         });
-
-        switch (scan.nextInt()){
-            case 1:
-                break;
-            case 2:
+        String choice = scan.next();
+        switch (choice){
+            case "2":
                 menu(user);
                 break;
+            case "榕树":
+                boolean flag = focus(20);
+                if(flag){
 
-            default:
+                }else{
+                    System.out.println("专注失败，没有获得任何东西");
+                }
+                break;
+            case "20":
+                focus(20);
+                break;
+            case "松树":
+                focus(30);
+                break;
+            case "30":
+                focus(30);
+                break;
+            case "枫叶树":
+                focus(80);
+                break;
+            case "80":
+                focus(80);
+                break;
 
         }
-        boolean flag  = TimeUtils.timekeeper(5);
-        if(flag){
-
-        }else {
-
-        }
-
     };
-
+//  专注页面
+    public boolean focus(int num){
+         boolean flag   = TimeUtils.timekeeper(num);
+            return flag;
+    }
 
     /**
      * 计时  参数为秒    如果完成返回true   失败返回false
@@ -134,7 +153,7 @@ public class view {
                 break;
             case "2":
 //                个人中心
-                personCenter(user);
+//                personCenter(user);
                 break;
             case "3":
 //              商城兑换
@@ -163,21 +182,21 @@ public class view {
     }
 
 //    个人中心
-    public void personCenter(User user){
+    /*public void personCenter(User user){
         List<User> list = service.ShowUserInfo(user.getQq());
 
         System.out.println("**一曰之计(当前水滴数"+user.getWater()+")**    //首页->2.功能菜单->种植绿化");
 //        System.out.println(list.size());
         list.stream().forEach(t ->{
 
-            System.out.println("用户"+t.getQq()+"在"+t.getUserTree().getStartTime()+"\n种植了"+t.getUserTree().getTreeName()+"\n预计收益"+t.getUserTree().getGrowValue()+"\n");
+            System.out.println("用户"+t.getQq()+"在"+"\n种植了"+t.getUserTree().getTreeName()+"\n预计收益"+t.getUserTree()+"\n");
         });
         String str =scan.next();
         if(str.equals("//")){
             showMainIndex(user);
         }
 
-    }
+    }*/
     public static void main(String[] args) {
         view vi = new view();
         vi.start();

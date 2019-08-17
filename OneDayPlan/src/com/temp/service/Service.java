@@ -24,10 +24,10 @@ public class Service {
     }
 
     //    展示记时操作
-    public List<User> ShowUserInfo(long qq) {
+   /* public List<User> ShowUserInfo(long qq) {
         return dao.ShowUserInfo(qq);
     }
-
+*/
     /**
      * 返回用户已经解锁的树信息，方便用户选择进入专注界面多久
      *

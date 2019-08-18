@@ -2,9 +2,10 @@ package com.temp.dao;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import com.temp.bean.*;
-import org.junit.Test;
-
+import com.temp.bean.Tree;
+import com.temp.bean.User;
+import com.temp.bean.UserInfo;
+import com.temp.bean.UserTree;
 
 import javax.management.relation.RoleUnresolved;
 import java.sql.Connection;
@@ -13,7 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -26,234 +26,6 @@ public class Dao {
     {
          dataSource = new ComboPooledDataSource();
     }
-
-
-
-    public List<Fruit> selectFruitAll() {
-        List<Fruit> fruitList = new ArrayList<>();
-        Connection con = null;
-        try {
-            con = dataSource.getConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        String sql = "select * from fruit";
-        PreparedStatement ps = null;
-        ResultSet re = null;
-
-        try {
-            ps = con.prepareStatement(sql);
-
-            re = ps.executeQuery();
-
-            while (re.next()) {
-                Fruit fruitT = new Fruit();
-
-                fruitT.setId(re.getInt("id"));
-                fruitT.setName(re.getString("name"));
-                fruitT.setPrice(re.getInt("price"));
-                fruitList.add(fruitT);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return fruitList;
-    }
-
-    public List<Tree> selectTreeAll(){
-        List<Tree> treeList = new ArrayList<>();
-        Connection con = null;
-        try {
-            con = dataSource.getConnection();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-        String sql = "select * from tree";
-        PreparedStatement ps = null;
-        ResultSet re = null;
-
-        try {
-            ps = con.prepareStatement(sql);
-
-            re = ps.executeQuery();
-
-            while(re.next()){
-                Tree tempT = new Tree();
-
-                tempT.setId(re.getInt("id"));
-                tempT.setName(re.getString("name"));
-                tempT.setTime(re.getInt("time"));
-                tempT.setUnlockTree(re.getInt("unlockTree"));
-                tempT.setFruitId(re.getInt("fruitId"));
-                tempT.setPrice(re.getInt("price"));
-                tempT.setGrowValue(re.getInt("growValue"));
-                tempT.setType(re.getInt("type"));
-
-                treeList.add(tempT);
-            }
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-
-
-
-
-        return treeList;
-    }
-
-
-    public int deleteGroundById(int id){
-        Connection con = null;
-        int result = -1;
-        try {
-            con = dataSource.getConnection();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-        String sql = "delete from ground where id = ?";
-        PreparedStatement ps = null;
-        ResultSet re = null;
-
-        try {
-            ps = con.prepareStatement(sql);
-            ps.setObject(1,id);
-
-            result = ps.executeUpdate();
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-
-        return result;
-    }
-
-    public int insertGroundByUserId(Ground newGround){
-        Connection con = null;
-        int result = -1;
-        try {
-            con = dataSource.getConnection();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-        String sql = "insert into ground(userid, treeid, growValue, startTime) value(?,?,?,?);";
-        PreparedStatement ps = null;
-        ResultSet re = null;
-
-        try {
-            ps = con.prepareStatement(sql);
-            ps.setObject(1, newGround.getUserid());
-            ps.setObject(2, newGround.getTreeid());
-            ps.setObject(3, newGround.getGrowValue());
-            ps.setObject(4, newGround.getStartTime());
-
-
-            result = ps.executeUpdate();
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-
-        return result;
-    }
-
-    public int updateGroundByUserId(Ground nowGround){
-        Connection con = null;
-        int result = -1;
-        try {
-            con = dataSource.getConnection();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-//        通过userid获取
-        String sql = "update ground set treeid = ?, growValue = ?, startTime = ? where userid = ?;";
-        PreparedStatement ps = null;
-        ResultSet re = null;
-
-        try {
-            ps = con.prepareStatement(sql);
-            ps.setObject(1, nowGround.getTreeid());
-            ps.setObject(2, nowGround.getGrowValue());
-            ps.setObject(3, nowGround.getStartTime());
-            ps.setObject(4, nowGround.getUserid());
-
-            result = ps.executeUpdate();
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-
-            return result;
-    }
-
-    /**
-     * 通过userid获取groundList对象
-     * @param userId
-     * @return
-     */
-    public GroundList selectGroundListByUserId(int userId){
-        GroundList result = new GroundList();
-        List<Ground> gList = new ArrayList<Ground>(9);
-        Connection con = null;
-        try {
-            con = dataSource.getConnection();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-//        通过userid获取
-        String sql = "select *, count(1) as num from ground where userid = ?";
-        PreparedStatement ps = null;
-        ResultSet re = null;
-        try {
-            ps = con.prepareStatement(sql);
-            ps.setObject(1, userId);
-
-            re = ps.executeQuery();
-
-//            如果没有获取到信息
-            if(!re.next()){
-                result.setNum(0);
-                return result;
-            }
-
-            result.setNum(re.getInt("num"));
-//            循环获取
-            do{
-                Ground tempG = new Ground();
-                tempG.setId(re.getInt("id"));
-                tempG.setUserid(userId);
-                tempG.setTreeid(re.getInt("treeid"));
-                tempG.setGrowValue(re.getInt("growValue"));
-                tempG.setStartTime(re.getDate("startTime"));
-                gList.add(tempG);
-            }while(re.next());
-
-            ps.close();
-
-            con.close();
-
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-        return result;
-    }
-
-
-
-
-
 
 
 //    登录方法 -  通过账号密码进行登录  返回对应的user
@@ -386,17 +158,16 @@ public class Dao {
 
     /**
      * 返回用户已经解锁的树信息，方便用户选择进入专注界面多久
-     * @param qq
      * @return 解锁的树信息
      */
-    public List<UserTree> ShowUserlevel(Long qq){
+    public List<UserTree> ShowUserlevel(long qq){
         List<UserTree> userTreeList = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
 //        String sql = "select * from usertree where userQq=?";
         //查询 usertree表，通过和tree表连接来获取名字
-        String sql="select userQq,startTime,t.name as treeName from tree t,usertree ut where t.id=ut.treeid and userQq=?";
+        String sql="select * from usertree where Userqq=?";
         try{
             connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement(sql);
@@ -406,8 +177,9 @@ public class Dao {
                 UserTree userTree = new UserTree();
 //                userTree.setId(rs.getInt("id"));
                 userTree.setTreeName(rs.getString("treeName"));
-                userTree.setUserQq(rs.getLong("userQq"));
-                userTree.setStartTime(rs.getTimestamp("startTime"));
+                userTree.setPrice(rs.getString("price"));
+                userTree.setFlag(rs.getInt("flag"));
+                userTree.setTime(rs.getString("time"));
                 userTreeList.add(userTree);
             }
             rs.close();
@@ -446,45 +218,29 @@ public class Dao {
 
     /**
      * 展示用户所有的计时操作
+     * 个人中心
      * @param qq
      * @return
      */
-    public List<User> ShowUserInfo(Long qq){
-//        List<UserInfo> userInfoList = new ArrayList<>();
-        List<User> userList = new ArrayList<>();
+    public List<UserInfo> ShowUserInfo(Long qq){
+        List<UserInfo> userInfos = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
-//        String sql = "select * from userinfo where userQq=?";
-        //查询tree usertree  szuser三个表来获取用户信息
-        String sql = "select sz.*,tree.name,ut.startTime,tree.growValue from szuser sz,usertree ut,tree where sz.qq=ut.userQq and ut.treeId=tree.id and sz.qq=?";
+
+        String sql="select * from userinfo where Userqq=?";
         try{
             connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setObject(1,qq);
             rs = preparedStatement.executeQuery();
             while(rs.next()){
-                User user = new User();
-                user.setId(rs.getInt("id"));
-                user.setQq(rs.getLong("qq"));
-                user.setWater(rs.getInt("water"));
-                user.setMoney(rs.getInt("money"));
-
-                //user表中的usertree属性
-                UserTree userTree = new UserTree();
-                userTree.setTreeName(rs.getString("name"));
-                userTree.setStartTime(rs.getTimestamp("startTime"));
-                userTree.setGrowValue(rs.getInt("growValue"));
-                user.setUserTree(userTree);
-//                UserInfo userInfo = new UserInfo();
-//                userInfo.setId(rs.getInt("id"));
-//                userInfo.setUserQq(rs.getLong("userQq"));
-//                userInfo.setTreeName(rs.getString("treeName"));
-//                userInfo.setStartTime(rs.getTimestamp("startTime"));
-//                userInfo.setEndTime(rs.getTimestamp("endTime"));
-//                userInfo.setMoneyGet(rs.getDouble("moneyGet"));
-//                userInfoList.add(userInfo);
-                userList.add(user);
+               UserInfo userInfo = new UserInfo();
+               userInfo.setUserQq(qq);
+               userInfo.setTreeName(rs.getString("treeName"));
+               userInfo.setTimer(rs.getString("Timer"));
+               userInfo.setMoneyGet(rs.getDouble("moneyGet"));
+                userInfos.add(userInfo);
             }
             rs.close();
             preparedStatement.close();
@@ -492,8 +248,8 @@ public class Dao {
         }catch (Exception e){
             e.printStackTrace();
         }
-//        return userInfoList;
-        return userList;
+        return userInfos;
+
     }
 
     /**
@@ -504,32 +260,115 @@ public class Dao {
         return true;
     }
 
-    @Test
-    public void run1(){
-        Dao dao = new Dao();
-        dao.UpdateUserWater((long)123,100);
-        dao.UpdateUserMoney((long)123,50);
-        dao.UpdateUserLevel((long)123,"测试树");
+    /**
+     * 展示用户可以解锁的树根据moeny
+     * @param moeny
+     * @return
+     */
+    public List<Tree> showUserUnlockTree(Integer moeny){
+        List<Tree> trees= new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        String sql="select * from tree  where unlockTree < ?";
+        try{
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setObject(1,moeny);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                Tree tree =new Tree();
+                tree.setName(resultSet.getString("name"));
+                tree.setTime(resultSet.getInt("time"));
+                tree.setPrice(resultSet.getDouble("price"));
+                trees.add(tree);
+            }
 
-        //测试查询用户信息的方法
-        List<User> users = dao.ShowUserInfo((long)123);
-        for(User user:users){
-            System.out.println(user);
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        //获取用户树信息
-        List<UserTree> userTreeList = dao.ShowUserlevel((long)123);
-        for(UserTree userTree:userTreeList){
-            System.out.println(userTree);
-        }
-        System.out.println("-----------------");
-        //原来的测试用户信息方法，可以删除
-//        List<UserInfo> userInfoList = dao.ShowUserInfo((long)123);
-//        for(UserInfo userInfo:userInfoList){
-//            System.out.println(userInfo);
-//        }
-        System.out.println("-----------------");
-        System.out.println(dao.UserLogin((long)123));
+        return trees;
+
     }
 
+    /**
+     * 展示用户金币和水滴，通过qq查询user
+     * @param qq
+     * @return 用户
+     */
+    public User ShowUserMoenyAndWater(Long qq){
+        String sql = "select * from szuser where qq=?";
+        User user = new User();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            conn = dataSource.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setObject(1,qq);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                user.setWater(rs.getInt("water"));
+                user.setMoney(rs.getInt("money"));
+                return user;
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+            return null;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw  new RuntimeException("查询失败");
+        }
+    }
+
+
+    /**
+     * 插入一条数据到userinfo表中
+     * @param qq
+     * @param treeName
+     * @param time
+     * @param moneyGet
+     */
+    public  void InnsertOneToUserInfo(Integer qq,String treeName,String time,Double moneyGet){
+        String sql = "insert into userinfo(userQq,treeName,Timer,moneyGet) values(?,?,?,?)";
+        Connection con = null;
+        PreparedStatement pre = null;
+        try{
+            con = dataSource.getConnection();
+            pre = con.prepareStatement(sql);
+            pre.setObject(1,qq);
+            pre.setObject(2,treeName);
+            pre.setObject(3,time);
+            pre.setObject(4,moneyGet);
+            pre.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 解锁树
+     * @param userQq
+     * @param treeName
+     */
+    public void updateUserTreeFlag(Integer userQq,String treeName){
+
+        String sql = "update usertree set flag=1 where userQq=? and treeName=?";
+        Connection connection = null;
+        PreparedStatement pre = null;
+        try {
+            connection = dataSource.getConnection();
+            pre = connection.prepareStatement(sql);
+            pre.setObject(1,userQq);
+            pre.setObject(2,treeName);
+            pre.close();
+            connection.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 }

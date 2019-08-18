@@ -10,9 +10,8 @@ import java.util.Date;
 public class UserInfo {
     private Integer id;
     private Long userQq;
+    private String Timer;
     private String treeName;
-    private Date startTime;
-    private Date endTime;
     private Double moneyGet;
 
     @Override
@@ -20,9 +19,8 @@ public class UserInfo {
         return "UserInfo{" +
                 "id=" + id +
                 ", userQq=" + userQq +
+                ", Timer='" + Timer + '\'' +
                 ", treeName='" + treeName + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
                 ", moneyGet=" + moneyGet +
                 '}';
     }
@@ -43,28 +41,20 @@ public class UserInfo {
         this.userQq = userQq;
     }
 
+    public String getTimer() {
+        return Timer;
+    }
+
+    public void setTimer(String timer) {
+        Timer = timer;
+    }
+
     public String getTreeName() {
         return treeName;
     }
 
     public void setTreeName(String treeName) {
         this.treeName = treeName;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
     }
 
     public Double getMoneyGet() {

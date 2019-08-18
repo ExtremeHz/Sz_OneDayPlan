@@ -5,7 +5,7 @@ package com.temp.bean;
  * @Date: 2019/8/2 14:57
  * @Description: 果实类型
  */
-public class Fruit {
+public class fruit {
 
     private int id;
     private String name;

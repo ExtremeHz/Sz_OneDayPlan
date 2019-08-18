@@ -1,9 +1,14 @@
 package com.temp.service;
 
+import com.temp.bean.Tree;
 import com.temp.bean.User;
+import com.temp.bean.UserInfo;
 import com.temp.bean.UserTree;
 import com.temp.dao.Dao;
+import org.junit.jupiter.api.Test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,6 +28,16 @@ public class Service {
         return dao.getUser(qq, password);
     }
 
+    /**
+     * 根据qq号更新水滴的数目
+     * @param qq
+     * @param water
+     * @return
+     */
+    public void UpdateUserWater(Long qq,int water){
+        dao.UpdateUserWater(qq,water);
+    };
+
     //    展示记时操作
    /* public List<User> ShowUserInfo(long qq) {
         return dao.ShowUserInfo(qq);
@@ -37,4 +52,34 @@ public class Service {
     public List<UserTree> ShowUserlevel(long qq) {
         return dao.ShowUserlevel(qq);
     }
+
+//    每日登陆更新用户水滴
+    public void UpdateUserWater(long qq,int water){
+        dao.UpdateUserWater(qq,water);
+    }
+//    更新用户金币
+    public void UpdateUserMoney(long qq,int money){
+        dao.UpdateUserMoney(qq,money);
+    }
+//    商城系统
+    public List<Tree> showUserUnlockTree(int money){
+        return dao.showUserUnlockTree(money);
+    }
+//    个人中心
+    public List<UserInfo> ShowUserInfo(User user){
+        return dao.ShowUserInfo(user.getQq());
+    }
+//    更新用户课题种植的树
+    public void UpdateUserLevel(User user){
+        dao.UpdateUserLevel(user.getQq(),"1");
+    }
+
+//    插入数据InnsertOneToUserInfo
+    public void InnsertOneToUserInfo(User user,String treeName,double moneyGet){
+        Date date  = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String time = sdf.format(date);
+        dao.InnsertOneToUserInfo(user.getQq(),treeName,time,moneyGet);
+    }
+
 }

@@ -331,7 +331,7 @@ public class Dao {
      * @param time
      * @param moneyGet
      */
-    public  void InnsertOneToUserInfo(Integer qq,String treeName,String time,Double moneyGet){
+    public  void InnsertOneToUserInfo(long qq,String treeName,String time,Double moneyGet){
         String sql = "insert into userinfo(userQq,treeName,Timer,moneyGet) values(?,?,?,?)";
         Connection con = null;
         PreparedStatement pre = null;

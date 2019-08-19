@@ -1,7 +1,10 @@
 package com.temp.test;
 
+import org.junit.jupiter.api.Test;
+
 public class TimeUtils {
     public static boolean timekeeper(int num){
+        boolean flag;
         System.out.println("将鼠标移入白框开始计时, "+num+"秒后结束计时");
 //        创建监听对象, 并传入flag
         __ _ = new __(false);
@@ -28,13 +31,23 @@ public class TimeUtils {
 
         }
 
-//        如果flag为true  表示计时成功
-        /*if(_.is_())return true;
-        else return false;*/
-        System.exit(0);
-        return _.is_();
+        if(_.is_()){
+//            System.exit(0);
+            flag = true;
+        }else {
+//            System.exit(0);
+            flag = false;
+        }
 
-//        System.exit(0);
+        return flag;
 
+    }
+
+@Test
+    public void show(){
+        boolean flag = timekeeper(5);
+        if (flag){}else{
+            System.out.println("123");
+        }
     }
 }

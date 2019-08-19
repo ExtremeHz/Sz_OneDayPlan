@@ -1,8 +1,9 @@
 package com.temp.view;
 
 import com.temp.bean.*;
+
+
 import com.temp.service.Service;
-import org.junit.Test;
 
 import java.util.*;
 
@@ -38,7 +39,7 @@ public class view {
 
 //    public static void main(String[] args){
 //
-//        new TimeTask(5).start();
+//        new TimeTask(5).startTime();
 //    }
 
 //    启动- 登录
@@ -71,7 +72,10 @@ public class view {
 
             if(user == null){
                 System.out.println("账号或密码错误, 请重新登陆");
-            }else break;
+            }else{
+                service.UpdateUserWater(user.getQq(),user.getWater()+10);
+                break;
+            }
         }
        showMainIndex(user);
     }
@@ -82,24 +86,68 @@ public class view {
         System.out.println("输入数字进入对应页面                                当前水滴数: "+user.getWater()+". 当前金币数: "+user.getMoney()+";\n1.专注模式(预计收入价值\"树对应金币数\"的\"树名\"及\"果实名\")" +
                 "\n2.功能菜单(请注意分配您的时间和精力)");
         System.out.println("------------------");
+        System.out.println("名称\t筹赏\t耗时");
         list.stream().forEach(t -> {
-            System.out.println(t.getStartTime()+"\""+t.getTreeName());
-            System.out.println(1);
+            if(t.getFlag()==1){
+                System.out.println(t.getTreeName()+"\t"+t.getPrice()+"\t"+t.getTime());
+            }
         });
-
-        switch (scan.nextInt()){
-            case 1:
-                break;
-            case 2:
+        String choice = scan.next();
+        switch (choice){
+            case "2":
                 menu(user);
                 break;
-
-            default:
+            case "榕树":
+                isFocus(20,user,"榕树",60);
+                break;
+            case "20" :
+                isFocus(20,user,"榕树",60);
+                break;
+            case "松树":
+                isFocus(30,user,"松树",80);
+                break;
+            case "30":
+                isFocus(30,user,"松树",80);
+                break;
+            case "枫叶树":
+                isFocus(80,user,"枫叶树",240);
+                break;
+            case "80":
+                isFocus(80,user,"枫叶树",240);
+                break;
+                default:
+                    showMainIndex(user);
 
         }
-
     };
-
+//  专注页面
+    public boolean focus(int num){
+         boolean flag   = TimeUtils.timekeeper(num);
+         return flag;
+    }
+//    isfocus
+    public void isFocus(int num ,User user,String treeName,double money){
+        boolean flag=  focus(num);
+        if(flag){
+            System.out.println("请选择种植或者卖出\n");
+            System.out.println("1.立即种植\n");
+            System.out.println("2.立即卖出\n");
+            String str = scan.next();
+            switch (str){
+                case "1":
+                    plant(null);
+                    break;
+                case "2":
+                    service.UpdateUserMoney(user.getQq(), user.getMoney()+(int) money);
+                    service.InnsertOneToUserInfo(user,"榕树",money);
+                    showSuperMarket(user);
+                    break;
+            }
+        }else{
+            System.out.println("专注失败，没有获得任何东西");
+            showMainIndex(user);
+        }
+    }
 
     /**
      * 计时  参数为秒    如果完成返回true   失败返回false
@@ -149,6 +197,7 @@ public class view {
                 break;
             case "3":
 //              商城兑换
+                showSuperMarket(user);
                 break;
 //                返回上级
             case "4":
@@ -205,13 +254,12 @@ public class view {
 
 //    个人中心
     public void personCenter(User user){
-        List<User> list = service.ShowUserInfo(user.getQq());
+        List<UserInfo> list = service.ShowUserInfo(user);
 
         System.out.println("**一曰之计(当前水滴数"+user.getWater()+")**    //首页->2.功能菜单->种植绿化");
 //        System.out.println(list.size());
         list.stream().forEach(t ->{
-
-            System.out.println("用户"+t.getQq()+"在"+t.getUserTree().getStartTime()+"\n种植了"+t.getUserTree().getTreeName()+"\n预计收益"+t.getUserTree().getGrowValue()+"\n");
+            System.out.println("用户"+user.getQq()+"在"+t.getTimer()+"\t种植了"+t.getTreeName()+"\t预计收益"+t.getMoneyGet()+"\n");
         });
         String str =scan.next();
         if(str.equals("//")){
@@ -219,12 +267,79 @@ public class view {
         }
 
     }
+//    商城
+    public void showSuperMarket(User user){
+        System.out.println("欢迎"+user.getQq()+"进入商城系统，当前你的金币为"+user.getMoney()+"");
+        List<Tree> list = service.showUserUnlockTree(user.getMoney());
+        System.out.println("————————————————————");
+        System.out.println("名称\t价格\t时间");
+        list.stream().forEach(t ->{
+            System.out.println(t.getName()+"\t"+t.getPrice()+"\t"+t.getTime());
+        });
+        System.out.println("选择你要购买的树");
+        String choice  = scan.next();
 
+       switch (choice){
+           case "榕树":
+               if(user.getMoney()>60){
+                   System.out.println("购买成功");
+                   service.UpdateUserMoney(user.getQq(),user.getMoney()-60);
+                   showSuperMarket(user);
+               }else{
+                   System.out.println("赶紧去挣钱吧");
+                   showSuperMarket(user);
+               }
+               break;
+           case "松树":
+               if(user.getMoney()>80){
+                   System.out.println("购买成功");
+                   service.UpdateUserMoney(user.getQq(),user.getMoney()-80);
+                   showSuperMarket(user);
+               }else{
+                   System.out.println("赶紧去挣钱吧");
+                   showSuperMarket(user);
+               }
+               break;
+           case "枫叶树":
+               if(user.getMoney()>240){
+                   System.out.println("购买成功");
+                   service.UpdateUserMoney(user.getQq(),user.getMoney()-240);
+                   showSuperMarket(user);
+               }else{
+                   System.out.println("赶紧去挣钱吧");
+                   showSuperMarket(user);
+               }
+               break;
+           case "苹果树":
+               if(user.getMoney()>300){
+                   System.out.println("购买成功");
+                   service.UpdateUserMoney(user.getQq(),user.getMoney()-300);
+                   showSuperMarket(user);
+               }else{
+                   System.out.println("赶紧去挣钱吧");
+                   showSuperMarket(user);
+               }
+               break;
+           case "桃树":
+               if(user.getMoney()>240){
+                   System.out.println("购买成功");
+                   service.UpdateUserMoney(user.getQq(),user.getMoney()-340);
+                   showSuperMarket(user);
+               }else{
+                   System.out.println("赶紧去挣钱吧");
+                   showSuperMarket(user);
+               }
+               break;
+           case "//":
+               showMainIndex(user);
+               break;
+               default:
+                   System.out.println("当前输入商城未有");
+                   showSuperMarket(user);
+                   break;
+       }
 
-
-
-
-
+    }
     public static void main(String[] args) {
         view vi = new view();
         vi.start();

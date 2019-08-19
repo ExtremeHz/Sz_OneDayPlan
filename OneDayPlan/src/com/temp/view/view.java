@@ -1,12 +1,10 @@
 package com.temp.view;
 
-import com.temp.bean.Tree;
-import com.temp.bean.User;
-import com.temp.bean.UserTree;
+import com.temp.bean.*;
 import com.temp.service.Service;
-import com.temp.test.TimeUtils;
-import java.util.List;
-import java.util.Scanner;
+import org.junit.Test;
+
+import java.util.*;
 
 /**
  * @Auther: YunHai
@@ -14,6 +12,23 @@ import java.util.Scanner;
  * @Description: view层
  */
 public class view {
+    static Map<Byte, Integer> optionMap;
+    static Map<Integer, Tree> treeMap;
+    static Map<Integer, Fruit> fruitMap;
+    static{
+        optionMap = new HashMap<Byte, Integer>();
+        treeMap = new HashMap<Integer, Tree>();
+        fruitMap = new HashMap<Integer, Fruit>();
+        optionMap.put(new Byte((byte)'!'),1);
+        optionMap.put(new Byte((byte)'@'),2);
+        optionMap.put(new Byte((byte)'#'),3);
+        optionMap.put(new Byte((byte)'$'),4);
+        optionMap.put(new Byte((byte)'%'),5);
+        optionMap.put(new Byte((byte)'^'),6);
+        optionMap.put(new Byte((byte)'&'),7);
+        optionMap.put(new Byte((byte)'*'),8);
+        optionMap.put(new Byte((byte)'('),9);
+    }
 
 
     public Scanner scan = new Scanner(System.in);
@@ -23,7 +38,7 @@ public class view {
 
 //    public static void main(String[] args){
 //
-//        new TimeTask(5).startTime();
+//        new TimeTask(5).start();
 //    }
 
 //    启动- 登录
@@ -68,46 +83,23 @@ public class view {
                 "\n2.功能菜单(请注意分配您的时间和精力)");
         System.out.println("------------------");
         list.stream().forEach(t -> {
-            if(t.getFlag()==1){
-                System.out.println(t.getTreeName()+"\""+t.getPrice()+"\""+t.getTime());
-            }
+            System.out.println(t.getStartTime()+"\""+t.getTreeName());
+            System.out.println(1);
         });
-        String choice = scan.next();
-        switch (choice){
-            case "2":
+
+        switch (scan.nextInt()){
+            case 1:
+                break;
+            case 2:
                 menu(user);
                 break;
-            case "榕树":
-                boolean flag = focus(20);
-                if(flag){
 
-                }else{
-                    System.out.println("专注失败，没有获得任何东西");
-                }
-                break;
-            case "20":
-                focus(20);
-                break;
-            case "松树":
-                focus(30);
-                break;
-            case "30":
-                focus(30);
-                break;
-            case "枫叶树":
-                focus(80);
-                break;
-            case "80":
-                focus(80);
-                break;
+            default:
 
         }
+
     };
-//  专注页面
-    public boolean focus(int num){
-         boolean flag   = TimeUtils.timekeeper(num);
-            return flag;
-    }
+
 
     /**
      * 计时  参数为秒    如果完成返回true   失败返回false
@@ -149,11 +141,11 @@ public class view {
         switch (s){
             case "1":
 //                种植中心
-              plant(user.getUserTree());
+              plant();
                 break;
             case "2":
 //                个人中心
-//                personCenter(user);
+                personCenter(user);
                 break;
             case "3":
 //              商城兑换
@@ -172,35 +164,108 @@ public class view {
     /**
      * 种植页面 待完善
      */
-    public void plant(UserTree userTree){
+    @Test
+    public void plant(){
+        byte[] options = {'!','@','#','$','%','^','&','*','('};
+        updateTreeMap();
+        updatefruit();
+
         System.out.println("--------------------------------------------------\n" +
-                "**一曰之计(当前水滴数)**    //首页->2.功能菜单->种植绿化"+
-                "背包: " +"苹果树1" +
-                "种植需求"+" 10滴水"+
-                "种植收益"+ " 苹果"+ "*"+ "1"+"(" +"50"+"金币)"
-        );
+                "**一曰之计(当前水滴数)**    //首页->2.功能菜单->种植绿化");
+        GroundList gList = service.selectGroundListByUserId(user.getId());
+        System.out.println("植树统计:   当前植树数量: "+ gList.getNum() + "   可进行的种植操作: 输入<浇水>+树前缀, 如浇水!然后回车");
+        System.out.println("种类, 名称, 价值, 阶段, 成长值, 所需成长值, 转化价值");
+
+        List<Ground> grounds = gList.getGrounds();
+        for (int i = 0; i < gList.getNum(); i++){
+            Ground ground = grounds.get(i);
+            Tree tree = treeMap.get(ground.getTreeid());
+            Fruit fruit = fruitMap.get(tree.getFruitId());
+            double level = 1.0 * ground.getGrowValue() / tree.getGrowValue();
+            byte levelS= 'Z';
+            if(level < 0.3) levelS = 'A';
+            else if(level < 0.5) levelS = 'B';
+            else if(level < 0.7) levelS = 'C';
+            else levelS = 'D';
+
+
+            System.out.println("树|  "+options[i]+tree.getName()+"|"+ tree.getPrice()+"|"
+            +levelS +"|" + tree.getGrowValue()+"|"+(tree.getGrowValue() - ground.getGrowValue())+"|" +fruit.getPrice());
+
+
+
+
+        }
+
+//        ------------------------
+
+
+
     }
 
 //    个人中心
-    /*public void personCenter(User user){
+    public void personCenter(User user){
         List<User> list = service.ShowUserInfo(user.getQq());
 
         System.out.println("**一曰之计(当前水滴数"+user.getWater()+")**    //首页->2.功能菜单->种植绿化");
 //        System.out.println(list.size());
         list.stream().forEach(t ->{
 
-            System.out.println("用户"+t.getQq()+"在"+"\n种植了"+t.getUserTree().getTreeName()+"\n预计收益"+t.getUserTree()+"\n");
+            System.out.println("用户"+t.getQq()+"在"+t.getUserTree().getStartTime()+"\n种植了"+t.getUserTree().getTreeName()+"\n预计收益"+t.getUserTree().getGrowValue()+"\n");
         });
         String str =scan.next();
         if(str.equals("//")){
             showMainIndex(user);
         }
 
-    }*/
+    }
+
+
+
+
+
+
     public static void main(String[] args) {
         view vi = new view();
         vi.start();
     }
+
+
+
+
+
+
+
+
+
+
+
+    public void updateTreeMap(){
+        List<Tree> treeList = service.selectTreeAll();
+        treeMap.clear();
+        for(Tree tempT : treeList){
+            treeMap.put(tempT.getId(), tempT);
+        }
+
+    }
+
+    public void updatefruit(){
+        List<Fruit> fruitList = service.selectFruitAll();
+        fruitMap.clear();
+        for(Fruit tempF : fruitList){
+            fruitMap.put(tempF.getId(), tempF);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
 }
 

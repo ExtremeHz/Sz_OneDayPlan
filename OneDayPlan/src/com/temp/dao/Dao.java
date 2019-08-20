@@ -166,7 +166,7 @@ public class Dao {
         return result;
     }
 
-    public int updateGroundByUserId(Ground nowGround){
+    public int updateGroundById(Ground nowGround){
         Connection con = null;
         int result = -1;
         try {
@@ -175,7 +175,7 @@ public class Dao {
             e.printStackTrace();
         }
 //        通过userid获取
-        String sql = "update ground set treeid = ?, growValue = ?, startTime = ? where userid = ?;";
+        String sql = "update ground set treeid = ?, growValue = ?, startTime = ? where id = ?;";
         PreparedStatement ps = null;
         ResultSet re = null;
 
@@ -184,7 +184,7 @@ public class Dao {
             ps.setObject(1, nowGround.getTreeid());
             ps.setObject(2, nowGround.getGrowValue());
             ps.setObject(3, nowGround.getStartTime());
-            ps.setObject(4, nowGround.getUserid());
+            ps.setObject(4, nowGround.getId());
 
             result = ps.executeUpdate();
 
@@ -211,18 +211,20 @@ public class Dao {
             e.printStackTrace();
         }
 //        通过userid获取
-        String sql = "select *, count(1) as num from ground where userid = ?";
+        String sql = "select *, (select count(*) from ground where userid=?) as num from ground where userid = ?";
         PreparedStatement ps = null;
         ResultSet re = null;
         try {
             ps = con.prepareStatement(sql);
             ps.setObject(1, userId);
+            ps.setObject(2, userId);
 
             re = ps.executeQuery();
 
 //            如果没有获取到信息
             if(!re.next()){
                 result.setNum(0);
+
                 return result;
             }
 
@@ -246,6 +248,8 @@ public class Dao {
         }catch(Exception e){
             e.printStackTrace();
         }
+
+        result.setGrounds(gList);
 
         return result;
     }
@@ -405,9 +409,11 @@ public class Dao {
                 UserTree userTree = new UserTree();
 //                userTree.setId(rs.getInt("id"));
                 userTree.setTreeName(rs.getString("treeName"));
-                userTree.setPrice(rs.getString("price"));
-                userTree.setFlag(rs.getInt("flag"));
-                userTree.setTime(rs.getString("time"));
+
+//                不知为何报错  dao没有对应方法   先注释    8.19 黎
+//                userTree.setPrice(rs.getString("price"));
+//                userTree.setFlag(rs.getInt("flag"));
+//                userTree.setTime(rs.getString("time"));
                 userTreeList.add(userTree);
             }
             rs.close();
@@ -466,7 +472,8 @@ public class Dao {
                UserInfo userInfo = new UserInfo();
                userInfo.setUserQq(qq);
                userInfo.setTreeName(rs.getString("treeName"));
-               userInfo.setTime(rs.getString("Timer"));
+//               不知为何报错  bean没有该方法   先注释    8.19 黎
+//               userInfo.setTime(rs.getString("Timer"));
                userInfo.setMoneyGet(rs.getDouble("moneyGet"));
                 userInfos.add(userInfo);
             }
@@ -559,7 +566,7 @@ public class Dao {
      * @param time
      * @param moneyGet
      */
-    public  void InnsertOneToUserInfo(Integer qq,String treeName,String time,Double moneyGet){
+    public  void InnsertOneToUserInfo(Long qq,String treeName,String time,Double moneyGet){
         String sql = "insert into userinfo(userQq,treeName,Timer,moneyGet) values(?,?,?,?)";
         Connection con = null;
         PreparedStatement pre = null;

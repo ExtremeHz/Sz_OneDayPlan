@@ -219,25 +219,29 @@ public class view {
      */
 //    @Test
     public void plant(){
+
+
         byte[] options = {'!','@','#','$','%','^','&','*','('};
         updateTreeMap();
         updatefruit();
-
         while(true) {
 
             System.out.println("--------------------------------------------------\n" +
                     "**一曰之计(当前水滴数)**    //首页->2.功能菜单->种植绿化");
+
             GroundList gList = service.selectGroundListByUserId(user.getId());
             System.out.println("植树统计:   当前植树数量: " + gList.getNum() + "   可进行的种植操作: 输入树前缀+<浇水>+水滴值, 如 !浇水100 然后回车");
-            System.out.println("种类, 名称, 价值, 阶段, 成长值, 所需成长值, 转化价值");
+            System.out.println("种类| 名称| 价值| 阶段| 成长值| 所需成长值| 转化价值");
 
 //        打印种植的树
             List<Ground> grounds = gList.getGrounds();
             for (int i = 0; i < gList.getNum(); i++) {
                 Ground ground = grounds.get(i);
+
                 Tree tree = treeMap.get(ground.getTreeid());
                 Fruit fruit = fruitMap.get(tree.getFruitId());
                 double level = 1.0 * ground.getGrowValue() / tree.getGrowValue();
+
                 byte levelS = 'Z';
                 if (level < 0.3) levelS = 'A';
                 else if (level < 0.5) levelS = 'B';
@@ -245,8 +249,8 @@ public class view {
                 else levelS = 'D';
 
 
-                System.out.println("树|  " + options[i] + tree.getName() + "|" + tree.getPrice() + "|"
-                        + levelS + "|" + tree.getGrowValue() + "|" + (tree.getGrowValue() - ground.getGrowValue()) + "|" + fruit.getPrice());
+                System.out.println("树|  " + (char)options[i] + tree.getName() + "| " + tree.getPrice() + "| "
+                        + (char)levelS + "| " + tree.getGrowValue() + "   | " + (tree.getGrowValue() - ground.getGrowValue()) + "     | " + tree.getPrice());
             }
 
             int userin = -1;
@@ -257,8 +261,9 @@ public class view {
 
                 //        输入模块
                 while (true) {
-                    System.out.println("请输入操作");
-                    String input = scan.nextLine();
+//                    System.out.println("请输入操作(由于Test没有输入, 所以用字符串代替");
+                    String input = /*"%浇水1"*/scan.nextLine();
+                    try{Thread.sleep(5000);}catch (Exception e){}
                     //        如果数字开头 则是跳转到对应页面
                     if (input.matches("^\\d")) {
                         //                这里是跳转用代码块
@@ -296,7 +301,7 @@ public class view {
 
 //                设置当前树的状态
                     groundT.setGrowValue(groundT.getGrowValue() + waterValue);
-                    service.updataGroundByUserId(groundT);
+                    service.updataGroundById(groundT);
 //                设置用户的水滴数
                     service.UpdateUserWater(user.getQq(), user.getWater() - waterValue);
                     user.setWater(user.getWater() - waterValue);
@@ -308,6 +313,8 @@ public class view {
                     if (treeT.getGrowValue() == groundT.getGrowValue()) {
                         service.UpdateUserMoney(user.getQq(), (int) (user.getMoney() + treeT.getPrice()));
                         user.setMoney((int) (user.getMoney() + treeT.getPrice()));
+                        System.out.println("你的<"+treeT.getName()+">能量值已满, 作为奖励, 你获得了:"+treeT.getPrice()+"金币");
+                        System.out.println("当前金币:"+user.getMoney());
                     }
 
                 }
@@ -462,16 +469,6 @@ public class view {
 
 
     }
-
-    @Test
-    public void test1(){
-        String input = "%浇水";
-        Integer input1 = optionMap.get((byte) input.charAt(0));
-        String input2 =input.substring(1,3);
-
-        System.out.println("1:" + input1+"|"+ "\n 2:"+input2+"|");
-    }
-
 
 
 

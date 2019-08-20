@@ -36,10 +36,10 @@ public class Service {
     };
 
     //    展示记时操作
-    public List<User> ShowUserInfo(long qq) {
+    public List<UserInfo> ShowUserInfo(long qq) {
         return dao.ShowUserInfo(qq);
     }
-*/
+
     /**
      * 返回用户已经解锁的树信息，方便用户选择进入专注界面多久
      *
@@ -94,8 +94,8 @@ public class Service {
         return dao.insertGroundByUserId(newGround);
     }
 
-    public int updataGroundByUserId(Ground nowGround){
-        return dao.updateGroundByUserId(nowGround);
+    public int updataGroundById(Ground nowGround){
+        return dao.updateGroundById(nowGround);
     }
 
     public int deleteGroundById(int id){

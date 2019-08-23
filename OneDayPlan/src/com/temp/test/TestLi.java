@@ -2,9 +2,6 @@ package com.temp.test;
 
 import com.temp.bean.*;
 import com.temp.service.Service;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +41,7 @@ public class TestLi {
     //    service层实现类
     private Service service = new Service();
 
-    @Before
+
     public void before(){
 
         user.setId(10086);
@@ -58,7 +55,7 @@ public class TestLi {
         /**
          * 黎  种植页面--------------------------------------------------------
          */
-    @Test
+
     public void plant(){
 
 

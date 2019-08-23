@@ -14,7 +14,7 @@ public class User {
     private int water;
     private int money;
 
-    private List<fruit> fruits;   //背包用
+    private List<Fruit> fruits;   //背包用
 
     private UserTree userTree;  //userTree背包
 
@@ -50,11 +50,11 @@ public class User {
         this.userTree = userTree;
     }
 
-    public List<fruit> getFruits() {
+    public List<Fruit> getFruits() {
         return fruits;
     }
 
-    public void setFruits(List<fruit> fruits) {
+    public void setFruits(List<Fruit> fruits) {
         this.fruits = fruits;
     }
 

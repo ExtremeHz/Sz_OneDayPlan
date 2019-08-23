@@ -1,6 +1,6 @@
 package com.temp.test;
 
-import org.junit.jupiter.api.Test;
+
 
 public class TimeUtils {
     public static boolean timekeeper(int num){
@@ -43,7 +43,7 @@ public class TimeUtils {
 
     }
 
-@Test
+
     public void show(){
         boolean flag = timekeeper(5);
         if (flag){}else{

@@ -1,7 +1,7 @@
 package com.temp.test;
 
 
-import org.junit.Test;
+
 
 /**
  * @Auther: YunHai
@@ -49,7 +49,7 @@ public class start {
 
 
 
-    @Test
+
     public void test1(){
         System.out.println("将鼠标移入白框开始计时, 10秒后结束计时");
 //        创建监听对象, 并传入flag

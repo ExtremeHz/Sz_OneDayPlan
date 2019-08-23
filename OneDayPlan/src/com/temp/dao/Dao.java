@@ -3,7 +3,7 @@ package com.temp.dao;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import com.temp.bean.*;
-import org.junit.Test;
+
 
 
 import javax.management.relation.RoleUnresolved;

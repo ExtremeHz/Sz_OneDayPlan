@@ -9,13 +9,13 @@ import java.util.Date;
  */
 public class Ground {
     private int id;
-//    对应的用户id
+    //    对应的用户id
     private int userid;
-//    对应的树id
+    //    对应的树id
     private int treeid;
-//    当前成长值
+    //    当前成长值
     private int growValue;
-//    开始种植的时间
+    //    开始种植的时间
     private Date startTime;
 
     public int getId() {

@@ -85,15 +85,15 @@ public class view {
 //    首页展示
     public  void showMainIndex(User user){
         List<UserTree> list = service.ShowUserlevel(user.getQq());
-        System.out.println("输入数字进入对应页面                                当前水滴数: "+user.getWater()+". 当前金币数: "+user.getMoney()+";\n1.专注模式(预计收入价值\"树对应金币数\"的\"树名\"及\"果实名\")" +
+        System.out.println("输入数字进入对应页面                                当前水滴数: "+user.getWater()+". 当前金币数: "+user.getMoney()+";\n1.专注模式(预计收入价值\"树对应金币数\"的\"树名\"及\"果实名\")输入树名或相应时间可进入专注页面" +
                 "\n2.功能菜单(请注意分配您的时间和精力)");
         System.out.println("------------------");
         System.out.println("名称\t筹赏\t耗时");
         list.stream().forEach(t -> {
 //            不知为何报错  先注释了  8.19 黎
-//            if(t.getFlag()==1){
-//                System.out.println(t.getTreeName()+"\t"+t.getPrice()+"\t"+t.getTime());
-//            }
+            if(t.getFlag()==1){
+                System.out.println(t.getTreeName()+"\t"+t.getPrice()+"\t"+t.getTime());
+            }
         });
         String choice = scan.next();
         switch (choice){
@@ -138,11 +138,11 @@ public class view {
             String str = scan.next();
             switch (str){
                 case "1":
-                    plant();
+                    plant(user);
                     break;
                 case "2":
                     service.UpdateUserMoney(user.getQq(), user.getMoney()+(int) money);
-                    service.InnsertOneToUserInfo(user,"榕树",money);
+                    service.InnsertOneToUserInfo(user,treeName,money);
                     showSuperMarket(user);
                     break;
             }
@@ -192,7 +192,7 @@ public class view {
         switch (s){
             case "1":
 //                种植中心
-              plant();
+              plant(user);
                 break;
             case "2":
 //                个人中心
@@ -217,7 +217,7 @@ public class view {
      * 黎  种植页面--------------------------------------------------------
      */
 //    @Test
-    public void plant(){
+    public void plant(User user){
 
 
         byte[] options = {'!','@','#','$','%','^','&','*','('};
@@ -272,7 +272,10 @@ public class view {
                         //            则是种植操作选项
                         userin = getUserOptionTree(input);
                         break;
-                    } else {
+                    } else if(input.equals("//")){
+                        showMainIndex(user);
+                        break;
+                    }else{
                         continue;
                     }
                 }

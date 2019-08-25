@@ -279,12 +279,17 @@ public class Dao {
             ps.setObject(2, password);
 
             re = ps.executeQuery();
-            re.next();
+            if(re.next()){
+                user.setId(re.getInt("id"));
+                user.setQq(re.getLong("qq"));
+                user.setPassword(re.getString("password"));
+                user.setWater(re.getInt("water"));
+                user.setMoney(re.getInt("money"));
+            }else {
+                return null;
+            }
 
-            user.setId(re.getInt("id"));
-            user.setQq(re.getLong("qq"));
-            user.setWater(re.getInt("water"));
-            user.setMoney(re.getInt("money"));
+
             ps.close();
 
             con.close();
@@ -300,6 +305,47 @@ public class Dao {
 
     }
 
+
+    public User getUserNoPassword(long qq){
+        User user= new User();
+        Connection con = null;
+        try {
+            con = dataSource.getConnection();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        String sql = "select * from szuser where qq = ?";
+        PreparedStatement ps = null;
+        ResultSet re = null;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setObject(1, qq);
+            re = ps.executeQuery();
+            if(re.next()){
+                user.setId(re.getInt("id"));
+                user.setQq(re.getLong("qq"));
+                user.setPassword(re.getString("password"));
+                user.setWater(re.getInt("water"));
+                user.setMoney(re.getInt("money"));
+            }else {
+                return null;
+            }
+
+
+            ps.close();
+
+            con.close();
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+        return user;
+
+
+    }
     /**
      * 用户登录的方法，通过qq查询user
      * @param qq

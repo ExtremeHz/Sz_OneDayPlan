@@ -24,6 +24,9 @@ public class Service {
     public User login(long qq, String password) {
         return dao.getUser(qq, password);
     }
+    public User getUserNoPassword(long qq){
+        return dao.getUserNoPassword(qq);
+    }
 
     /**
      * 根据qq号更新水滴的数目

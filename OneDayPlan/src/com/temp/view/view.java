@@ -72,14 +72,16 @@ public class view {
 //            查询
             user = service.login(qq,password);
 
-            if(user == null){
+            if(user==null){
                 System.out.println("账号或密码错误, 请重新登陆");
+                continue;
             }else{
                 service.UpdateUserWater(user.getQq(),user.getWater()+10);
+                showMainIndex(user);
                 break;
             }
         }
-       showMainIndex(user);
+
     }
 
 //    首页展示
@@ -104,7 +106,7 @@ public class view {
                 isFocus(20,user,"榕树",60);
                 break;
             case "20" :
-                isFocus(20,user,"榕树",60);
+                isFocus(5,user,"榕树",60);
                 break;
             case "松树":
                 isFocus(30,user,"松树",80);
@@ -143,8 +145,11 @@ public class view {
                 case "2":
                     service.UpdateUserMoney(user.getQq(), user.getMoney()+(int) money);
                     service.InnsertOneToUserInfo(user,treeName,money);
+                    user = service.getUserNoPassword(user.getQq());
                     showSuperMarket(user);
                     break;
+                case "//":
+                    showMainIndex(user);
             }
         }else{
             System.out.println("专注失败，没有获得任何东西");
@@ -152,28 +157,6 @@ public class view {
         }
     }
 
-    /**
-     * 计时  参数为秒    如果完成返回true   失败返回false
-     */
-    public boolean countTime(int time){
-//        循环计时
-        for(int i = time; i > 0; i--){
-            System.out.println(String.format("%02d",i/60)+ ":" + String.format("%02d",i%60) );
-            try{
-                Thread.sleep(1000);
-            }catch(Exception e){
-
-            }
-
-//            判断  如果判断失败返回false  成功则继续循环
-//          判断逻辑待完善
-            if(1==2) return false;
-
-        }
-
-//        如果完成计时 返回true
-        return true;
-    }
 
 
     /**
@@ -349,9 +332,9 @@ public class view {
         System.out.println("欢迎"+user.getQq()+"进入商城系统，当前你的金币为"+user.getMoney()+"");
         List<Tree> list = service.showUserUnlockTree(user.getMoney());
         System.out.println("————————————————————");
-        System.out.println("名称\t价格\t时间");
+        System.out.println("名称\t\t\t价格\t\t\t时间");
         list.stream().forEach(t ->{
-            System.out.println(t.getName()+"\t"+t.getPrice()+"\t"+t.getTime());
+            System.out.println(t.getName()+"\t\t\t"+t.getPrice()+"\t\t\t"+t.getTime());
         });
         System.out.println("选择你要购买的树");
         String choice  = scan.next();
@@ -361,6 +344,7 @@ public class view {
                if(user.getMoney()>60){
                    System.out.println("购买成功");
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-60);
+                   user = service.getUserNoPassword(user.getQq());
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");
@@ -371,6 +355,7 @@ public class view {
                if(user.getMoney()>80){
                    System.out.println("购买成功");
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-80);
+                   user = service.getUserNoPassword(user.getQq());
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");
@@ -381,6 +366,7 @@ public class view {
                if(user.getMoney()>240){
                    System.out.println("购买成功");
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-240);
+                   user = service.getUserNoPassword(user.getQq());
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");
@@ -391,6 +377,7 @@ public class view {
                if(user.getMoney()>300){
                    System.out.println("购买成功");
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-300);
+                   user = service.getUserNoPassword(user.getQq());
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");
@@ -401,6 +388,7 @@ public class view {
                if(user.getMoney()>240){
                    System.out.println("购买成功");
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-340);
+                   user = service.getUserNoPassword(user.getQq());
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");

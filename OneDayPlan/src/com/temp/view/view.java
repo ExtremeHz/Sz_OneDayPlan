@@ -58,19 +58,22 @@ public class view {
             String[] inputs = input.split("//");
             long qq = 0;
             String password;
-//            如果输入格式错误   会抛出异常
-            try {
-                qq = Long.valueOf(inputs[0]);
-                password = inputs[1];
+            if(inputs.length>1){
+                //            如果输入格式错误   会抛出异常
+                try {
+                    qq = Long.valueOf(inputs[0]);
+                    password = inputs[1];
 
+                    user = service.login(qq,password);
+                } catch(NumberFormatException e){
+                    System.out.println("账号或密码格式错误, 请重新输入");
+                    continue;
+                }
 
-            } catch(NumberFormatException e){
-                System.out.println("账号或密码格式错误, 请重新输入");
-                continue;
             }
 
 //            查询
-            user = service.login(qq,password);
+
 
             if(user==null){
                 System.out.println("账号或密码错误, 请重新登陆");
@@ -150,6 +153,8 @@ public class view {
                     break;
                 case "//":
                     showMainIndex(user);
+                    default:
+                        showMainIndex(user);
             }
         }else{
             System.out.println("专注失败，没有获得任何东西");
@@ -192,6 +197,10 @@ public class view {
             case "//":
                 showMainIndex(user);
                 break;
+                default:
+                    System.out.println("请按规定输入");
+                    menu(user);
+                    break;
         }
 
     }

@@ -217,7 +217,7 @@ public class TestLi {
 
     }
 
-    @Test
+
     public void testString(){
 
         System.out.println("请输入用户ID和密码并以//作为间隔");

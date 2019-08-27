@@ -128,6 +128,7 @@ public class view {
 //  专注页面
     public boolean focus(int num){
          boolean flag   = TimeUtils.timekeeper(num);
+
          return flag;
     }
 //    isfocus

@@ -9,9 +9,9 @@ import java.util.Map;
  * @Description:
  */
 public class GroundList {
-//    土地集合
+    //    土地集合
     private List<Ground> grounds;
-//    种植数量集合
+    //    种植数量集合
     private int num;
 
     public List<Ground> getGrounds() {

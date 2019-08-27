@@ -5,8 +5,7 @@ import com.temp.bean.*;
 
 import com.temp.service.Service;
 import com.temp.test.TimeUtils;
-import com.temp.utils.Utils;
-import org.junit.Test;
+
 
 import java.util.*;
 
@@ -71,30 +70,32 @@ public class view {
             }
 
 //            查询
-            user = service.login(qq,password);
 
-            if(user == null){
+
+            if(user==null){
                 System.out.println("账号或密码错误, 请重新登陆");
+                continue;
             }else{
                 service.UpdateUserWater(user.getQq(),user.getWater()+10);
+                showMainIndex(user);
                 break;
             }
         }
-       showMainIndex(user);
+
     }
 
 //    首页展示
     public  void showMainIndex(User user){
         List<UserTree> list = service.ShowUserlevel(user.getQq());
-        System.out.println("输入数字进入对应页面                                当前水滴数: "+user.getWater()+". 当前金币数: "+user.getMoney()+";\n1.专注模式(预计收入价值\"树对应金币数\"的\"树名\"及\"果实名\")" +
+        System.out.println("输入数字进入对应页面                                当前水滴数: "+user.getWater()+". 当前金币数: "+user.getMoney()+";\n1.专注模式(预计收入价值\"树对应金币数\"的\"树名\"及\"果实名\")输入树名或相应时间可进入专注页面" +
                 "\n2.功能菜单(请注意分配您的时间和精力)");
         System.out.println("------------------");
         System.out.println("名称\t筹赏\t耗时");
         list.stream().forEach(t -> {
 //            不知为何报错  先注释了  8.19 黎
-//            if(t.getFlag()==1){
-//                System.out.println(t.getTreeName()+"\t"+t.getPrice()+"\t"+t.getTime());
-//            }
+            if(t.getFlag()==1){
+                System.out.println(t.getTreeName()+"\t"+t.getPrice()+"\t"+t.getTime());
+            }
         });
         String choice = scan.next();
         switch (choice){
@@ -269,7 +270,7 @@ public class view {
                         //                这里是跳转用代码块
 
 
-                    } else if (input.matches("[!@#$%^&*(][\\u4e00-\\u9fa5]{2}\\d+$")) {
+                    } else if (input.matches("\\W[\\u4e00-\\u9fa5]{2}\\d+$")) {
                         //            则是种植操作选项
                         userin = getUserOptionTree(input);
                         break;

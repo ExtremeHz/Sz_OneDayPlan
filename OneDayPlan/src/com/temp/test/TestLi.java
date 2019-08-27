@@ -220,5 +220,25 @@ public class TestLi {
 
     }
 
+    @Test
+    public void testString(){
+
+        System.out.println("请输入用户ID和密码并以//作为间隔");
+//            获取输入  并通过//进行分割
+        String input = "123//";
+        String[] inputs = input.split("//");
+        long qq = 0;
+        String password;
+//            如果输入格式错误   会抛出异常
+        try {
+            qq = Long.valueOf(inputs[0]);
+            password = inputs[1];
+
+
+        } catch(Exception e){
+            System.out.println("账号或密码格式错误, 请重新输入");
+        }
+    }
+
 
 }

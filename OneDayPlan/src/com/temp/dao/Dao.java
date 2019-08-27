@@ -279,7 +279,7 @@ public class Dao {
             ps.setObject(2, password);
 
             re = ps.executeQuery();
-            re.next();
+            if(!re.next()) return null;
 
             user.setId(re.getInt("id"));
             user.setQq(re.getLong("qq"));

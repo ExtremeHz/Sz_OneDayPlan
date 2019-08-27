@@ -65,7 +65,7 @@ public class view {
                 password = inputs[1];
 
 
-            } catch(NumberFormatException e){
+            } catch(Exception e){
                 System.out.println("账号或密码格式错误, 请重新输入");
                 continue;
             }
@@ -269,7 +269,7 @@ public class view {
                         //                这里是跳转用代码块
 
 
-                    } else if (input.matches("\\W[\\u4e00-\\u9fa5]{2}\\d+$")) {
+                    } else if (input.matches("[!@#$%^&*(][\\u4e00-\\u9fa5]{2}\\d+$")) {
                         //            则是种植操作选项
                         userin = getUserOptionTree(input);
                         break;

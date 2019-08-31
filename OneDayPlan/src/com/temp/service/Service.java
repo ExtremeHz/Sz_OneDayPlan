@@ -25,9 +25,11 @@ public class Service {
         return dao.getUser(qq, password);
     }
     public User getUserNoPassword(long qq){
-        return null;
+        return dao.UserLogin(qq);
     }
-
+    public Tree getTreeByName(String treeName){
+        return dao.getTreeByName(treeName);
+    }
     /**
      * 根据qq号更新水滴的数目
      * @param qq

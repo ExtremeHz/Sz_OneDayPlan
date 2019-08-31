@@ -365,6 +365,37 @@ public class Dao {
             throw  new RuntimeException("用户登录查询失败");
         }
     }
+//    SELECT id  from tree  WHERE  name  = '榕树'
+public Tree getTreeByName(String treeName){
+    String sql = "SELECT *  from tree  WHERE  name  = ?";
+    Tree tree = new Tree();
+    Connection conn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    try{
+        conn = dataSource.getConnection();
+        ps = conn.prepareStatement(sql);
+        ps.setObject(1,treeName);
+        rs = ps.executeQuery();
+        while (rs.next()){
+            //将查询到的bean保存到user中
+            tree.setId(rs.getInt("id"));
+            tree.setName(treeName);
+            tree.setTime(rs.getInt("time"));
+            tree.setUnlockTree(rs.getInt("unlockTree"));
+            tree.setPrice(rs.getDouble("price"));
+            tree.setGrowValue(rs.getInt("growValue"));
+            return tree;
+        }
+        rs.close();
+        ps.close();
+        conn.close();
+        return null;
+    }catch (Exception e){
+        e.printStackTrace();
+        throw  new RuntimeException("树查询失败");
+    }
+}
 
     /**
      * 根据qq号更新水滴的数目

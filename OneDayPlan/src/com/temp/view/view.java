@@ -77,6 +77,7 @@ public class view {
                 continue;
             }else{
                 service.UpdateUserWater(user.getQq(),user.getWater()+10);
+                user= service.getUserNoPassword(user.getQq());
                 showMainIndex(user);
                 break;
             }
@@ -148,7 +149,8 @@ public class view {
 //                        这里是调用了立即卖出的代码块, 也就是case"2"的
                         {
                             service.UpdateUserMoney(user.getQq(), user.getMoney() + (int) money);
-                            service.InnsertOneToUserInfo(user, "榕树", money);
+                            service.InnsertOneToUserInfo(user, treeName, money);
+                            user = service.getUserNoPassword(user.getQq());
                             showSuperMarket(user);
                         }
 
@@ -157,18 +159,20 @@ public class view {
 //                        往这里面传入新的树就好了   从tree表里面选一个进去
 //                        但我不知道你这边是怎么判断用户种哪颗树的   所以这里你写一下
 //                                                                              ----------周迅
+                        Tree tree  = service.getTreeByName(treeName);
                         Ground newGround = new Ground();
                         newGround.setUserid(user.getId());
-                        newGround.setTreeid(1008611);//这里 需要写一下 传入对应的treeid即可
+                        newGround.setTreeid(tree.getId());//这里 需要写一下 传入对应的treeid即可
                         newGround.setGrowValue(0);
                         newGround.setStartTime(new Date());
-                        service.insertGroundByUserId(null);
+                        service.insertGroundByUserId(newGround);
                         plant();
                     }
                     break;
                 case "2":
                     service.UpdateUserMoney(user.getQq(), user.getMoney()+(int) money);
                     service.InnsertOneToUserInfo(user,"榕树",money);
+                    user = service.getUserNoPassword(user.getQq());
                     showSuperMarket(user);
                     break;
             }
@@ -400,6 +404,7 @@ public class view {
                        service.insertGroundByUserId(g);
                    }
                    user.setMoney(user.getMoney() - 60);
+                   user = service.getUserNoPassword(user.getQq());
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");
@@ -419,6 +424,7 @@ public class view {
                        service.insertGroundByUserId(g);
                    }
                    user.setMoney(user.getMoney() - 80);
+                   user = service.getUserNoPassword(user.getQq());
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");
@@ -439,7 +445,7 @@ public class view {
                        service.insertGroundByUserId(g);
                    }
                    user.setMoney(user.getMoney() - 240);
-
+                   user = service.getUserNoPassword(user.getQq());
 
                    showSuperMarket(user);
                }else{
@@ -462,7 +468,7 @@ public class view {
                    }
                    user.setMoney(user.getMoney() - 300);
 
-
+                   user = service.getUserNoPassword(user.getQq());
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");
@@ -483,7 +489,7 @@ public class view {
                        service.insertGroundByUserId(g);
                    }
                    user.setMoney(user.getMoney() - 340);
-
+                   user = service.getUserNoPassword(user.getQq());
 
                    showSuperMarket(user);
                }else{

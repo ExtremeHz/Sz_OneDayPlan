@@ -71,7 +71,7 @@ public class view {
 
 //            查询
 
-
+            user = service.login(qq,password);
             if(user==null){
                 System.out.println("账号或密码错误, 请重新登陆");
                 continue;
@@ -290,9 +290,10 @@ public class view {
                     String input = /*"%浇水1"*/scan.nextLine();
                     try{Thread.sleep(5000);}catch (Exception e){}
                     //        如果数字开头 则是跳转到对应页面
-                    if (input.matches("^\\d")) {
+                    if (input.matches("//")) {
                         //                这里是跳转用代码块
-
+                           showMainIndex(user);
+                      break;
 
                     } else if (input.matches("\\W[\\u4e00-\\u9fa5]{2}\\d+$")) {
                         //            则是种植操作选项
@@ -369,7 +370,7 @@ public class view {
     }
 //    商城
     public void showSuperMarket(User user){
-        System.out.println("欢迎"+user.getQq()+"进入商城系统，当前你的金币为"+user.getMoney()+"");
+        System.out.println("欢迎"+user.getQq()+"进入商城系统，当前你的金币为"+user.getMoney()+"(只显示您可以购买的数)");
         List<Tree> list = service.showUserUnlockTree(user.getMoney());
         System.out.println("————————————————————");
         System.out.println("名称\t价格\t时间");

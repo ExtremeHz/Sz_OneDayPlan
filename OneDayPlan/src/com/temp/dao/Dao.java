@@ -3,7 +3,7 @@ package com.temp.dao;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import com.temp.bean.*;
-import org.junit.Test;
+
 
 
 import javax.management.relation.RoleUnresolved;
@@ -410,9 +410,9 @@ public class Dao {
                 userTree.setTreeName(rs.getString("treeName"));
 
 //                不知为何报错  dao没有对应方法   先注释    8.19 黎
-                userTree.setPrice(rs.getString("price"));
-                userTree.setFlag(rs.getInt("flag"));
-                userTree.setTime(rs.getString("time"));
+//                userTree.setPrice(rs.getString("price"));
+//                userTree.setFlag(rs.getInt("flag"));
+//                userTree.setTime(rs.getString("time"));
                 userTreeList.add(userTree);
             }
             rs.close();
@@ -471,7 +471,7 @@ public class Dao {
                UserInfo userInfo = new UserInfo();
                userInfo.setUserQq(qq);
                userInfo.setTreeName(rs.getString("treeName"));
-               userInfo.setTimer(rs.getString("Timer"));
+//               userInfo.setTimer(rs.getString("Timer"));
                userInfo.setMoneyGet(rs.getDouble("moneyGet"));
                 userInfos.add(userInfo);
             }

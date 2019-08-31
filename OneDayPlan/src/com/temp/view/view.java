@@ -71,7 +71,7 @@ public class view {
 
 //            查询
 
-
+            user = service.login(qq,password);
             if(user==null){
                 System.out.println("账号或密码错误, 请重新登陆");
                 continue;
@@ -93,9 +93,9 @@ public class view {
         System.out.println("名称\t筹赏\t耗时");
         list.stream().forEach(t -> {
 //            不知为何报错  先注释了  8.19 黎
-            if(t.getFlag()==1){
-                System.out.println(t.getTreeName()+"\t"+t.getPrice()+"\t"+t.getTime());
-            }
+//            if(t.getFlag()==1){
+//                System.out.println(t.getTreeName()+"\t"+t.getPrice()+"\t"+t.getTime());
+//            }
         });
         String choice = scan.next();
         switch (choice){
@@ -267,9 +267,10 @@ public class view {
                     String input = /*"%浇水1"*/scan.nextLine();
                     try{Thread.sleep(5000);}catch (Exception e){}
                     //        如果数字开头 则是跳转到对应页面
-                    if (input.matches("^\\d")) {
+                    if (input.matches("//")) {
                         //                这里是跳转用代码块
-
+                           showMainIndex(user);
+                      break;
 
                     } else if (input.matches("\\W[\\u4e00-\\u9fa5]{2}\\d+$")) {
                         //            则是种植操作选项
@@ -346,14 +347,14 @@ public class view {
     }
 //    商城
     public void showSuperMarket(User user){
-        System.out.println("欢迎"+user.getQq()+"进入商城系统，当前你的金币为"+user.getMoney()+"");
+        System.out.println("欢迎"+user.getQq()+"进入商城系统，当前你的金币为"+user.getMoney()+"(只显示您可以购买的数)");
         List<Tree> list = service.showUserUnlockTree(user.getMoney());
         System.out.println("————————————————————");
         System.out.println("名称\t价格\t时间");
         list.stream().forEach(t ->{
             System.out.println(t.getName()+"\t"+t.getPrice()+"\t"+t.getTime());
         });
-        System.out.println("选择你要购买的树");
+        System.out.println("选择你要购买的树，(如需种植，请返回上级菜单。。。)");
         String choice  = scan.next();
 
        switch (choice){
@@ -361,6 +362,7 @@ public class view {
                if(user.getMoney()>60){
                    System.out.println("购买成功");
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-60);
+                   user.setMoney(user.getMoney()-60);
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");
@@ -371,6 +373,7 @@ public class view {
                if(user.getMoney()>80){
                    System.out.println("购买成功");
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-80);
+                   user.setMoney(user.getMoney()-80);
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");
@@ -381,6 +384,7 @@ public class view {
                if(user.getMoney()>240){
                    System.out.println("购买成功");
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-240);
+                   user.setMoney(user.getMoney()-240);
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");
@@ -391,6 +395,7 @@ public class view {
                if(user.getMoney()>300){
                    System.out.println("购买成功");
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-300);
+                   user.setMoney(user.getMoney()-300);
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");
@@ -401,6 +406,7 @@ public class view {
                if(user.getMoney()>240){
                    System.out.println("购买成功");
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-340);
+                   user.setMoney(user.getMoney()-340);
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");

@@ -25,7 +25,7 @@ public class Service {
         return dao.getUser(qq, password);
     }
     public User getUserNoPassword(long qq){
-        return dao.getUserNoPassword(qq);
+        return null;
     }
 
     /**

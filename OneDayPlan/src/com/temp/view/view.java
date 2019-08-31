@@ -163,7 +163,7 @@ public class view {
                         Ground newGround = new Ground();
                         newGround.setUserid(user.getId());
                         newGround.setTreeid(tree.getId());//这里 需要写一下 传入对应的treeid即可
-                        newGround.setGrowValue(0);
+                        newGround.setGrowValue(tree.getGrowValue());
                         newGround.setStartTime(new Date());
                         service.insertGroundByUserId(newGround);
                         plant();

@@ -186,15 +186,11 @@ public class Dao {
             ps.setObject(2, newGround.getTreeid());
             ps.setObject(3, newGround.getGrowValue());
             ps.setObject(4, newGround.getStartTime());
-
-
             result = ps.executeUpdate();
 
         }catch(Exception e){
             e.printStackTrace();
         }
-
-
         return result;
     }
 

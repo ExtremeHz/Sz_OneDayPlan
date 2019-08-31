@@ -394,7 +394,7 @@ public class view {
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-60);
 //                   种树
                    {
-                       Tree tree =  service.getTreeByName("榕树");
+                       Tree tree = service.getTreeByName("榕树");
                        Ground g = new Ground();
                        g.setUserid(user.getId());
                        g.setStartTime(new Date());

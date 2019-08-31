@@ -171,7 +171,7 @@ public class view {
                     break;
                 case "2":
                     service.UpdateUserMoney(user.getQq(), user.getMoney()+(int) money);
-                    service.InnsertOneToUserInfo(user,"榕树",money);
+                    service.InnsertOneToUserInfo(user,treeName,money);
                     user = service.getUserNoPassword(user.getQq());
                     showSuperMarket(user);
                     break;
@@ -387,8 +387,6 @@ public class view {
         if(service.getUserGroundNumByUserId(user.getId()) >= 9){
             System.out.println("你种个jb树, 你种个锤子树. 地都种满了你还种个憨憨, 不卖了 gun");
         }
-        choice = "//";
-
        switch (choice){
            case "榕树":
                if(user.getMoney()>60){
@@ -399,7 +397,7 @@ public class view {
                        Ground g = new Ground();
                        g.setId(user.getId());
                        g.setStartTime(new Date());
-                       g.setTreeid(1);
+                       g.setTreeid(service.getTreeByName("榕树").getId());
                        g.setGrowValue(0);
                        service.insertGroundByUserId(g);
                    }
@@ -419,7 +417,7 @@ public class view {
                        Ground g = new Ground();
                        g.setId(user.getId());
                        g.setStartTime(new Date());
-                       g.setTreeid(2);
+                       g.setTreeid(service.getTreeByName("榕树").getId());
                        g.setGrowValue(0);
                        service.insertGroundByUserId(g);
                    }
@@ -440,7 +438,7 @@ public class view {
                        Ground g = new Ground();
                        g.setId(user.getId());
                        g.setStartTime(new Date());
-                       g.setTreeid(3);
+                       g.setTreeid(service.getTreeByName("枫叶树").getId());
                        g.setGrowValue(0);
                        service.insertGroundByUserId(g);
                    }
@@ -462,7 +460,7 @@ public class view {
                        Ground g = new Ground();
                        g.setId(user.getId());
                        g.setStartTime(new Date());
-                       g.setTreeid(4);
+                       g.setTreeid(service.getTreeByName("苹果树").getId());
                        g.setGrowValue(0);
                        service.insertGroundByUserId(g);
                    }
@@ -484,7 +482,7 @@ public class view {
                        Ground g = new Ground();
                        g.setId(user.getId());
                        g.setStartTime(new Date());
-                       g.setTreeid(5);
+                       g.setTreeid(service.getTreeByName("桃树").getId());
                        g.setGrowValue(0);
                        service.insertGroundByUserId(g);
                    }

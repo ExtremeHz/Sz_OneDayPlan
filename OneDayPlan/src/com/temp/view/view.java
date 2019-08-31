@@ -94,9 +94,9 @@ public class view {
         System.out.println("名称\t筹赏\t耗时");
         list.stream().forEach(t -> {
 //            不知为何报错  先注释了  8.19 周迅
-//            if(t.getFlag()==1){
-//                System.out.println(t.getTreeName()+"\t"+t.getPrice()+"\t"+t.getTime());
-//            }
+            if(t.getFlag()==1){
+                System.out.println(t.getTreeName()+"\t"+t.getPrice()+"\t"+t.getTime());
+            }
         });
         String choice = scan.next();
         switch (choice){
@@ -394,11 +394,12 @@ public class view {
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-60);
 //                   种树
                    {
+                       Tree tree =  service.getTreeByName("榕树");
                        Ground g = new Ground();
-                       g.setId(user.getId());
+                       g.setUserid(user.getId());
                        g.setStartTime(new Date());
-                       g.setTreeid(service.getTreeByName("榕树").getId());
-                       g.setGrowValue(0);
+                       g.setTreeid(tree.getId());
+                       g.setGrowValue(tree.getGrowValue());
                        service.insertGroundByUserId(g);
                    }
                    user.setMoney(user.getMoney() - 60);
@@ -414,11 +415,12 @@ public class view {
                    System.out.println("购买成功");
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-80);
                    {
+                       Tree tree = service.getTreeByName("松树");
                        Ground g = new Ground();
-                       g.setId(user.getId());
+                       g.setUserid(user.getId());
                        g.setStartTime(new Date());
-                       g.setTreeid(service.getTreeByName("榕树").getId());
-                       g.setGrowValue(0);
+                       g.setTreeid(tree.getId());
+                       g.setGrowValue(tree.getGrowValue());
                        service.insertGroundByUserId(g);
                    }
                    user.setMoney(user.getMoney() - 80);
@@ -435,11 +437,12 @@ public class view {
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-240);
 
                    {
+                       Tree tree = service.getTreeByName("枫叶树");
                        Ground g = new Ground();
-                       g.setId(user.getId());
+                       g.setUserid(user.getId());
                        g.setStartTime(new Date());
-                       g.setTreeid(service.getTreeByName("枫叶树").getId());
-                       g.setGrowValue(0);
+                       g.setTreeid(tree.getId());
+                       g.setGrowValue(tree.getGrowValue());
                        service.insertGroundByUserId(g);
                    }
                    user.setMoney(user.getMoney() - 240);
@@ -457,11 +460,12 @@ public class view {
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-300);
 
                    {
+                       Tree tree = service.getTreeByName("苹果树");
                        Ground g = new Ground();
-                       g.setId(user.getId());
+                       g.setUserid(user.getId());
                        g.setStartTime(new Date());
-                       g.setTreeid(service.getTreeByName("苹果树").getId());
-                       g.setGrowValue(0);
+                       g.setTreeid(tree.getId());
+                       g.setGrowValue(tree.getGrowValue());
                        service.insertGroundByUserId(g);
                    }
                    user.setMoney(user.getMoney() - 300);
@@ -479,11 +483,12 @@ public class view {
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-340);
 
                    {
+                       Tree tree = service.getTreeByName("桃树");
                        Ground g = new Ground();
-                       g.setId(user.getId());
+                       g.setUserid(user.getId());
                        g.setStartTime(new Date());
-                       g.setTreeid(service.getTreeByName("桃树").getId());
-                       g.setGrowValue(0);
+                       g.setTreeid(tree.getId());
+                       g.setGrowValue(tree.getGrowValue());
                        service.insertGroundByUserId(g);
                    }
                    user.setMoney(user.getMoney() - 340);

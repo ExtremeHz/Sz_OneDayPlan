@@ -1,7 +1,9 @@
 package com.temp.test;
 
 import com.temp.bean.*;
+import com.temp.dao.Dao;
 import com.temp.service.Service;
+import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.List;
@@ -235,6 +237,13 @@ public class TestLi {
         } catch(Exception e){
             System.out.println("账号或密码格式错误, 请重新输入");
         }
+    }
+
+    @Test
+    public void testGetGroundNum(){
+        Dao dao = new Dao();
+        System.out.println(dao.getUserGroundNumByUserId(10086));
+
     }
 
 

@@ -42,7 +42,7 @@ public class start {
         if(_.is_())System.out.println("计时成功");
         else System.out.println("计时失败");
 
-        System.exit(0);
+
 
 
     }

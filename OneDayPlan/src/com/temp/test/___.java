@@ -1,5 +1,6 @@
 package com.temp.test;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -18,10 +19,13 @@ public class ___  extends Thread{
     public void run() {
 //        创建监听对象, 并开始监听
         setName("___");
-        Frame __ = new Frame();
+        JFrame __ = new JFrame();
         __.setBounds(200, 200, 200, 200);//设置窗口的大小 位置
         __.addMouseListener(new ____(_));
         __.setVisible(true);//让窗口显示出来
+
+//        开启关闭
+        __.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 

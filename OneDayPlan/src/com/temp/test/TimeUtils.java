@@ -39,7 +39,7 @@ public class TimeUtils {
             flag = false;
         }
 
-        __.interrupt();
+        __.stop();
 
         return flag;
 

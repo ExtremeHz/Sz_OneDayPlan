@@ -28,6 +28,38 @@ public class Dao {
     }
 
 
+//-------------------------------------周迅
+
+    public int getUserGroundNumByUserId(int userId){
+        Connection con = null;
+        int result = -1;
+        try {
+            con = dataSource.getConnection();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        String sql = "select count(1) as num from ground where userid = ?";
+        PreparedStatement ps = null;
+        ResultSet re = null;
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setObject(1, userId);
+
+
+            ResultSet resultSet = ps.executeQuery();
+            resultSet.next();
+            result = resultSet.getInt("num");
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+        return result;
+    }
+
 
     public List<Fruit> selectFruitAll() {
         List<Fruit> fruitList = new ArrayList<>();
@@ -410,9 +442,9 @@ public class Dao {
                 userTree.setTreeName(rs.getString("treeName"));
 
 //                不知为何报错  dao没有对应方法   先注释    8.19 黎
-                userTree.setPrice(rs.getString("price"));
-                userTree.setFlag(rs.getInt("flag"));
-                userTree.setTime(rs.getString("time"));
+//                userTree.setPrice(rs.getString("price"));
+//                userTree.setFlag(rs.getInt("flag"));
+//                userTree.setTime(rs.getString("time"));
                 userTreeList.add(userTree);
             }
             rs.close();
@@ -471,7 +503,7 @@ public class Dao {
                UserInfo userInfo = new UserInfo();
                userInfo.setUserQq(qq);
                userInfo.setTreeName(rs.getString("treeName"));
-               userInfo.setTimer(rs.getString("Timer"));
+//               userInfo.setTimer(rs.getString("Timer"));
                userInfo.setMoneyGet(rs.getDouble("moneyGet"));
                 userInfos.add(userInfo);
             }

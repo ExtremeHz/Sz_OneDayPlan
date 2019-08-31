@@ -41,6 +41,7 @@ public class ____ implements MouseListener {
         public void mouseExited(MouseEvent e) {
 //            System.out.println("计时结束");
             _.set_(false);
+
         }
 
 

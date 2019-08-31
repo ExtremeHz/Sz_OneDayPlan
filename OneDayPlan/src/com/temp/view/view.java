@@ -92,10 +92,10 @@ public class view {
         System.out.println("------------------");
         System.out.println("名称\t筹赏\t耗时");
         list.stream().forEach(t -> {
-//            不知为何报错  先注释了  8.19 黎
-            if(t.getFlag()==1){
-                System.out.println(t.getTreeName()+"\t"+t.getPrice()+"\t"+t.getTime());
-            }
+//            不知为何报错  先注释了  8.19 周迅
+//            if(t.getFlag()==1){
+//                System.out.println(t.getTreeName()+"\t"+t.getPrice()+"\t"+t.getTime());
+//            }
         });
         String choice = scan.next();
         switch (choice){
@@ -141,7 +141,30 @@ public class view {
             String str = scan.next();
             switch (str){
                 case "1":
-                    plant();
+                    GroundList gl = service.selectGroundListByUserId(user.getId());
+                    if(gl.getNum()>=9) {
+                        System.out.println("土地已满, 无法种植. 已帮您出售该树");
+
+//                        这里是调用了立即卖出的代码块, 也就是case"2"的
+                        {
+                            service.UpdateUserMoney(user.getQq(), user.getMoney() + (int) money);
+                            service.InnsertOneToUserInfo(user, "榕树", money);
+                            showSuperMarket(user);
+                        }
+
+                        break;
+                    }else {
+//                        往这里面传入新的树就好了   从tree表里面选一个进去
+//                        但我不知道你这边是怎么判断用户种哪颗树的   所以这里你写一下
+//                                                                              ----------周迅
+                        Ground newGround = new Ground();
+                        newGround.setUserid(user.getId());
+                        newGround.setTreeid(1008611);//这里 需要写一下 传入对应的treeid即可
+                        newGround.setGrowValue(0);
+                        newGround.setStartTime(new Date());
+                        service.insertGroundByUserId(null);
+                        plant();
+                    }
                     break;
                 case "2":
                     service.UpdateUserMoney(user.getQq(), user.getMoney()+(int) money);
@@ -217,7 +240,7 @@ public class view {
     }
 
     /**
-     * 黎  种植页面--------------------------------------------------------
+     * 周迅  种植页面--------------------------------------------------------
      */
 //    @Test
     public void plant(){
@@ -335,7 +358,7 @@ public class view {
         System.out.println("**一曰之计(当前水滴数"+user.getWater()+")**    //首页->2.功能菜单->种植绿化");
 //        System.out.println(list.size());
         list.stream().forEach(t ->{
-//            不知为何报错. 先注释了    8.19 黎
+//            不知为何报错. 先注释了    8.19 周迅
             System.out.println("用户"+user.getQq()+"在"+/*t.getTime()+*/"\t种植了"+t.getTreeName()+"\t预计收益"+t.getMoneyGet()+"\n");
         });
         String str =scan.next();
@@ -356,11 +379,26 @@ public class view {
         System.out.println("选择你要购买的树");
         String choice  = scan.next();
 
+        if(service.getUserGroundNumByUserId(user.getId()) >= 9){
+            System.out.println("你种个jb树, 你种个锤子树. 地都种满了你还种个憨憨, 不卖了 gun");
+        }
+        choice = "//";
+
        switch (choice){
            case "榕树":
                if(user.getMoney()>60){
                    System.out.println("购买成功");
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-60);
+//                   种树
+                   {
+                       Ground g = new Ground();
+                       g.setId(user.getId());
+                       g.setStartTime(new Date());
+                       g.setTreeid(1);
+                       g.setGrowValue(0);
+                       service.insertGroundByUserId(g);
+                   }
+                   user.setMoney(user.getMoney() - 60);
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");
@@ -371,6 +409,15 @@ public class view {
                if(user.getMoney()>80){
                    System.out.println("购买成功");
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-80);
+                   {
+                       Ground g = new Ground();
+                       g.setId(user.getId());
+                       g.setStartTime(new Date());
+                       g.setTreeid(2);
+                       g.setGrowValue(0);
+                       service.insertGroundByUserId(g);
+                   }
+                   user.setMoney(user.getMoney() - 80);
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");
@@ -381,6 +428,18 @@ public class view {
                if(user.getMoney()>240){
                    System.out.println("购买成功");
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-240);
+
+                   {
+                       Ground g = new Ground();
+                       g.setId(user.getId());
+                       g.setStartTime(new Date());
+                       g.setTreeid(3);
+                       g.setGrowValue(0);
+                       service.insertGroundByUserId(g);
+                   }
+                   user.setMoney(user.getMoney() - 240);
+
+
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");
@@ -391,6 +450,18 @@ public class view {
                if(user.getMoney()>300){
                    System.out.println("购买成功");
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-300);
+
+                   {
+                       Ground g = new Ground();
+                       g.setId(user.getId());
+                       g.setStartTime(new Date());
+                       g.setTreeid(4);
+                       g.setGrowValue(0);
+                       service.insertGroundByUserId(g);
+                   }
+                   user.setMoney(user.getMoney() - 300);
+
+
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");
@@ -401,6 +472,18 @@ public class view {
                if(user.getMoney()>240){
                    System.out.println("购买成功");
                    service.UpdateUserMoney(user.getQq(),user.getMoney()-340);
+
+                   {
+                       Ground g = new Ground();
+                       g.setId(user.getId());
+                       g.setStartTime(new Date());
+                       g.setTreeid(5);
+                       g.setGrowValue(0);
+                       service.insertGroundByUserId(g);
+                   }
+                   user.setMoney(user.getMoney() - 340);
+
+
                    showSuperMarket(user);
                }else{
                    System.out.println("赶紧去挣钱吧");
@@ -424,7 +507,7 @@ public class view {
 
 
     /**
-     * 黎  刷新tree字典表映射  id为key
+     * 周迅  刷新tree字典表映射  id为key
      */
     public void updateTreeMap(){
         List<Tree> treeList = service.selectTreeAll();
@@ -436,7 +519,7 @@ public class view {
     }
 
     /**
-     * 黎  刷新fruit字典表映射  id为key
+     * 周迅  刷新fruit字典表映射  id为key
      */
     public void updatefruit(){
         List<Fruit> fruitList = service.selectFruitAll();

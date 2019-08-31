@@ -13,16 +13,34 @@ public class UserTree {
     private Long userQq;
     private Date startTime;
     private Integer growValue;
+    private Integer flag;
+    private String time;
+    private String price;
 
-    @Override
-    public String toString() {
-        return "UserTree{" +
-                "id=" + id +
-                ", treeName='" + treeName + '\'' +
-                ", userQq=" + userQq +
-                ", startTime=" + startTime +
-                ", growValue=" + growValue +
-                '}';
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public Integer getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
 
     public Integer getGrowValue() {

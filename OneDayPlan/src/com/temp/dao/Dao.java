@@ -473,9 +473,9 @@ public Tree getTreeByName(String treeName){
                 userTree.setTreeName(rs.getString("treeName"));
 
 //                不知为何报错  dao没有对应方法   先注释    8.19 黎
-//                userTree.setPrice(rs.getString("price"));
-//                userTree.setFlag(rs.getInt("flag"));
-//                userTree.setTime(rs.getString("time"));
+                userTree.setPrice(rs.getString("price"));
+                userTree.setFlag(rs.getInt("flag"));
+                userTree.setTime(rs.getString("time"));
                 userTreeList.add(userTree);
             }
             rs.close();

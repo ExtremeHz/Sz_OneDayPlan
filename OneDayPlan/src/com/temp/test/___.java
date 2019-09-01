@@ -25,7 +25,7 @@ public class ___  extends Thread{
         __.setVisible(true);//让窗口显示出来
 
 //        开启关闭
-        __.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        __.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
     }
 

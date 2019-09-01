@@ -292,7 +292,7 @@ public class view {
                 while (true) {
 //                    System.out.println("请输入操作(由于Test没有输入, 所以用字符串代替");
                     String input = /*"%浇水1"*/scan.nextLine();
-                    try{Thread.sleep(5000);}catch (Exception e){}
+//                    try{Thread.sleep(5000);}catch (Exception e){}
                     //        如果数字开头 则是跳转到对应页面
                     if (input.matches("//")) {
                         //                这里是跳转用代码块
@@ -386,7 +386,10 @@ public class view {
 
         if(service.getUserGroundNumByUserId(user.getId()) >= 9){
             System.out.println("你种个jb树, 你种个锤子树. 地都种满了你还种个憨憨, 不卖了 gun");
+            choice = "//";
         }
+
+
        switch (choice){
            case "榕树":
                if(user.getMoney()>60){
@@ -399,10 +402,9 @@ public class view {
                        g.setUserid(user.getId());
                        g.setStartTime(new Date());
                        g.setTreeid(tree.getId());
-                       g.setGrowValue(tree.getGrowValue());
+                       g.setGrowValue(0);
                        service.insertGroundByUserId(g);
                    }
-                   user.setMoney(user.getMoney() - 60);
                    user = service.getUserNoPassword(user.getQq());
                    showSuperMarket(user);
                }else{
@@ -420,10 +422,10 @@ public class view {
                        g.setUserid(user.getId());
                        g.setStartTime(new Date());
                        g.setTreeid(tree.getId());
-                       g.setGrowValue(tree.getGrowValue());
+                       g.setGrowValue(0);
                        service.insertGroundByUserId(g);
                    }
-                   user.setMoney(user.getMoney() - 80);
+
                    user = service.getUserNoPassword(user.getQq());
                    showSuperMarket(user);
                }else{
@@ -442,10 +444,10 @@ public class view {
                        g.setUserid(user.getId());
                        g.setStartTime(new Date());
                        g.setTreeid(tree.getId());
-                       g.setGrowValue(tree.getGrowValue());
+                       g.setGrowValue(0);
                        service.insertGroundByUserId(g);
                    }
-                   user.setMoney(user.getMoney() - 240);
+
                    user = service.getUserNoPassword(user.getQq());
 
                    showSuperMarket(user);
@@ -465,10 +467,10 @@ public class view {
                        g.setUserid(user.getId());
                        g.setStartTime(new Date());
                        g.setTreeid(tree.getId());
-                       g.setGrowValue(tree.getGrowValue());
+                       g.setGrowValue(0);
                        service.insertGroundByUserId(g);
                    }
-                   user.setMoney(user.getMoney() - 300);
+
 
                    user = service.getUserNoPassword(user.getQq());
                    showSuperMarket(user);
@@ -488,10 +490,10 @@ public class view {
                        g.setUserid(user.getId());
                        g.setStartTime(new Date());
                        g.setTreeid(tree.getId());
-                       g.setGrowValue(tree.getGrowValue());
+                       g.setGrowValue(0);
                        service.insertGroundByUserId(g);
                    }
-                   user.setMoney(user.getMoney() - 340);
+
                    user = service.getUserNoPassword(user.getQq());
 
                    showSuperMarket(user);
